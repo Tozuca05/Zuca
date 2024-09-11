@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -64,3 +65,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+=======
+# Zuca
+Zuca is a clothing store dedicated to offering current, comfortable, and affordable fashion for all ages. Our focus is on combining style and quality in every garment, ensuring that our customers find unique pieces that reflect their personality.
+>>>>>>> d4f45b15fd0c4ff28452b1af581a79dc71f5956e
