@@ -19,13 +19,16 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+    * Where to redirect users after login.
+    *
+    * @var string
+    */
+    protected function redirectTo()
+    {
+    return route('home.index');
+    }
+
 
     /**
      * Create a new controller instance.
