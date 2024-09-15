@@ -40,7 +40,8 @@
                             @csrf
                         </form>
                     @endguest
-
+                        <a class="nav-link active" href="{{ route('product.index') }}">Products</a>
+                        <a class="nav-link active" href="{{ route('product.create') }}">Create Products</a>
                     <!-- Espacio para tus enlaces personalizados -->
                 
                 </div>
