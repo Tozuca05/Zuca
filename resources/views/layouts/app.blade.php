@@ -32,7 +32,7 @@
                             <a class="nav-link active" href="{{ route('register') }}">Register</a>
                         @endif
                     @else
-                        @if (Auth::user()->role === 'admin')
+                        @if (Auth::user()->getRole() === 'admin')
                             <a class="nav-link active" href="{{ route('admin.index') }}">Admin Panel</a>
                         @endif
                         <a class="nav-link active" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
