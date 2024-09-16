@@ -14,6 +14,7 @@
               @endforeach
             </ul>
             @endif
+<<<<<<< HEAD
             <form method="POST" action="{{ route('product.save') }}" enctype="multipart/form-data">
               @csrf
               <input type="text" class="form-control mb-2" placeholder="Enter name" name="name" value="{{ old('name') }}" />
@@ -21,6 +22,13 @@
               
               <input type="file" class="form-control mb-2" name="image" />
 
+=======
+
+            <form method="POST" action="{{ route('product.save') }}">
+              @csrf
+              <input type="text" class="form-control mb-2" placeholder="Enter name" name="name" value="{{ old('name') }}" />
+              <input type="text" class="form-control mb-2" placeholder="Enter price" name="price" value="{{ old('price') }}" />
+>>>>>>> bc7c07b4b25526c1361fad9e14701615155e4972
               <input type="submit" class="btn btn-primary" value="Send" />
             </form>
           </div>
@@ -30,3 +38,7 @@
   </div>
 </div>
 @endsection
+<<<<<<< HEAD
+=======
+
+>>>>>>> bc7c07b4b25526c1361fad9e14701615155e4972

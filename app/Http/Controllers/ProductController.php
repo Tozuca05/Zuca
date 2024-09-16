@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+<<<<<<< HEAD
 use Illuminate\Http\Request; 
 use App\Utils\ProductDataValidate;
+=======
+>>>>>>> bc7c07b4b25526c1361fad9e14701615155e4972
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -30,10 +33,15 @@ class ProductController extends Controller
         }
         $viewData['title'] = $product->getName().' - Online Store';
         $viewData['subtitle'] = $product->getName().' - Product information';
+<<<<<<< HEAD
+=======
+
+>>>>>>> bc7c07b4b25526c1361fad9e14701615155e4972
         $viewData['product'] = $product;
 
         return view('product.show')->with('viewData', $viewData);
     }
+<<<<<<< HEAD
 
   
     public function save(Request $request): RedirectResponse
@@ -57,3 +65,6 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
 }
+=======
+}
+>>>>>>> bc7c07b4b25526c1361fad9e14701615155e4972
