@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Illuminate\Http\Request; 
+use App\Utils\ProductDataValidate;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -14,7 +13,7 @@ class ProductController extends Controller
     public function index(): View
     {
         $viewData = [];
-        $viewData['title'] = 'Zuca products';
+        $viewData['title'] = 'Products - Pet Store';
         $viewData['subtitle'] = 'List of products';
         $viewData['products'] = Product::all();
 
@@ -27,84 +26,34 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
         } catch (Exception $e) {
-            return redirect()->route('product.index');
+            return redirect()->route('home.index');
         }
-        $viewData['title'] = $product->getName().' - Zuca Shop';
+        $viewData['title'] = $product->getName().' - Online Store';
         $viewData['subtitle'] = $product->getName().' - Product information';
-
         $viewData['product'] = $product;
 
         return view('product.show')->with('viewData', $viewData);
     }
-    public function create(): View
-    {
-        $viewData = [];
-        $viewData['title'] = 'Create Products';
-        $viewData['subtitle'] = 'List of products';
-        $viewData['products'] = Product::all();
-        return view('product.create')->with('viewData', $viewData);
-    }
-    public function store(Request $request): RedirectResponse
-    {
-        Product::validate($request);
 
-        $newProduct = new Product;
-        $newProduct->setName($request->input('name'));
-        $newProduct->setDescription($request->input('description'));
-        $newProduct->setPrice($request->input('price'));
-        $newProduct->setImage('default_image.png');
-        $newProduct->save();
+  
+    public function save(Request $request): RedirectResponse
+    {
+     
+        $validator = ProductDataValidate::validate($request->all());
 
-        if ($request->hasFile('image')) {
-            $imageName = $newProduct->getId().'.'.$request->file('image')->extension();
-            Storage::disk('public')->put(
-                $imageName,
-                file_get_contents($request->file('image')->getRealPath())
-            );
-            $newProduct->setImage($imageName);
-            $newProduct->save();
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        return redirect()->route('product.index')->with('success', 'Element created successfully.');
-    }
-
-    public function delete($id): RedirectResponse
-    {
-        Product::destroy($id);
-
-        return redirect()->route('product.index');
-    }
-
-    public function edit($id): View
-    {
-        $viewData = [];
-        $viewData['title'] = 'Edit Product - Zuca';
-        $viewData['product'] = Product::findOrFail($id);
-
-        return view('product.edit')->with('viewData', $viewData);
-    }
-
-    public function update(Request $request, $id): RedirectResponse
-    {
-        Product::validate($request);
-
-        $product = Product::findOrFail($id);
-
-        $product->setName($request->input('name'));
-        $product->setDescription($request->input('description'));
-        $product->setPrice($request->input('price'));
-
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->price = $request->input('price');
         if ($request->hasFile('image')) {
-            $imageName = $product->getId().'.'.$request->file('image')->extension();
-            Storage::disk('public')->put(
-                $imageName,
-                file_get_contents($request->file('image')->getRealPath())
-            );
-            $product->setImage($imageName);
+            $imagePath = $request->file('image')->store('products', 'public');
+            $product->image = $imagePath;
         }
-
         $product->save();
 
-        return redirect()->route('product.index');
+        return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
 }

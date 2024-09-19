@@ -25,7 +25,7 @@
                         </p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <form method="POST" action="{{ route('product.delete', ['id'=> $viewData['product']->getId()]) }}">
+                        <form method="POST" action="{{ route('admin.product.delete', ['id'=> $viewData['product']->getId()]) }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title', $viewData["title"])
 @section('content')
     <div class="card mb-4">
@@ -13,7 +13,7 @@
                     @endforeach
                 </ul>
             @endif
-            <form method="POST" action="{{ route('product.update', ['id'=> $viewData['product']->getId()]) }}"
+            <form method="POST" action="{{ route('admin.product.update', ['id'=> $viewData['product']->getId()]) }}"
                   enctype="multipart/form-data">
                 @csrf
                 @method('PUT')

@@ -31,19 +31,18 @@
                         @if (Route::has('register'))
                             <a class="nav-link active" href="{{ route('register') }}">Register</a>
                         @endif
-                    @else
-                        @if (Auth::user()->getRole() === 'admin')
-                            <a class="nav-link active" href="{{ route('admin.index') }}">Admin Panel</a>
-                        @endif
+                        
+                        @else
                         <a class="nav-link active" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                        @if (Auth::user()->getRole() === 'admin')
+                        <a class="nav-link active" href="{{ route('admin.home.index') }}">Admin Panel</a>
+                        @endif
+                        <a class="nav-link active" href="{{ route('cart.index') }}">Cart of Products</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                     @endguest
                         <a class="nav-link active" href="{{ route('product.index') }}">Products</a>
-                        <a class="nav-link active" href="{{ route('product.create') }}">Create Products</a>
-                    <!-- Espacio para tus enlaces personalizados -->
-                
                 </div>
             </div>
         </div>
