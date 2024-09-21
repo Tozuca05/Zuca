@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory;
+    
 
     /**
      * USER ATTRIBUTES
@@ -17,13 +15,11 @@ class User extends Authenticatable
      * $this->attributes['email'] - string - contains the user email
      * $this->attributes['password'] - string - contains the user password
      * $this->attributes['role'] - string - contains the user role (admin/user)
-     * $this->attributes['balance'] - float - contains the user balance
+     * $this->attributes['balance'] - int - contains the user balance
      * $this->attributes['created_at'] - timestamp - contains the creation date of the user
      * $this->attributes['updated_at'] - timestamp - contains the last update date of the user
      */
-
     protected $fillable = ['name', 'email', 'password', 'role', 'balance'];
-
 
     public function getId(): int
     {
@@ -75,12 +71,12 @@ class User extends Authenticatable
         $this->attributes['role'] = $role;
     }
 
-    public function getBalance(): float
+    public function getBalance(): int
     {
         return $this->attributes['balance'];
     }
 
-    public function setBalance(float $balance): void
+    public function setBalance(int $balance): void
     {
         $this->attributes['balance'] = $balance;
     }
@@ -104,10 +100,5 @@ class User extends Authenticatable
     {
         $this->attributes['updated_at'] = $updatedAt;
     }
-
-    // public function orders()
-// {
-//     return $this->hasMany(Order::class);
-// }
 
 }

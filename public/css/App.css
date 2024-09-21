@@ -1,29 +1,28 @@
-.bg-secondary {
-    background-color: #2c3e50 !important;
-  }
-  
-  .copyright {
-    background-color: #1a252f;
-  }
-  
-  .bg-primary {
-    background-color: #092ca0 !important;
-  }
-  
-  nav{
-    font-weight: 700;
-  }
-  
-  .img-card{
-    height: 18vw;
-    object-fit: cover;
-  }
-  
-  .sapo-perro-weight {
-    color: blue;
-  }
-  
-  .bold-name {
-    font-weight: bold;
-  }
-  
+.custom-logo {
+  max-height: 80px; /* Tamaño del logo */
+  width: auto;
+}
+
+.navbar {
+  background-color: #000000 !important; /* Color negro */
+  padding: 30px !important; /* Aumentar el padding para hacer la barra más grande */
+}
+
+.navbar-brand {
+  font-size: 24px; /* Tamaño del texto ZUCA */
+  color: #ffffff;
+}
+
+.navbar-nav .nav-link {
+  font-size: 18px; /* Tamaño del texto de los links */
+  color: #ffffff !important; /* Color blanco para los links */
+}
+
+.navbar-toggler-icon {
+  background-color: #ffffff; /* Hacer el icono del botón visible */
+}
+
+.masthead {
+  background-color: #000000; /* Color de fondo del encabezado */
+  padding: 2rem; /* Espaciado del encabezado */
+}

@@ -16,6 +16,7 @@ class Product extends Model
      * $this->attributes['price'] - int - contains the product price
      * $this->attributes['created_at'] - timestamp - contains the product creation date
      * $this->attributes['updated_at'] - timestamp - contains the product update date
+     * $this->attributes['stock'] - int - contains the product stock
      */
     public function getId(): int
     {
@@ -87,13 +88,33 @@ class Product extends Model
         $this->attributes['updated_at'] = $updatedAt;
     }
 
+    public function getStock(): int
+    {
+        return $this->attributes['stock'];
+    }
+
+    public function setStock(int $stock): void
+    {
+        $this->attributes['stock'] = $stock;
+    }
+
     public static function validate($request): void
     {
         $request->validate([
             'name' => 'required|max:255',
             'description' => 'required',
             'price' => 'required|numeric|gt:0',
-            'image' => 'image',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'stock' => 'required|numeric|gt:0',
         ]);
     }
+    public static function sumPricesByQuantities($products, $productsInSession) 
+    { 
+        $total = 0; 
+        foreach ($products as $product) { 
+            $total = $total + ($product->getPrice()*$productsInSession[$product->getId()]); 
+        } 
+ 
+        return $total; 
+    } 
 }

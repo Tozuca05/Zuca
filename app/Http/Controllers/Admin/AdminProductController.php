@@ -14,7 +14,7 @@ class AdminProductController extends Controller
     public function index(): View
     {
         $viewData = [];
-        $viewData['title'] = 'Admin Page - Products - Pet Store';
+        $viewData['title'] = 'Admin Page - Products - Zuca Store';
         $viewData['products'] = Product::all();
 
         return view('admin.product.index')->with('viewData', $viewData);
@@ -29,6 +29,7 @@ class AdminProductController extends Controller
         $newProduct->setDescription($request->input('description'));
         $newProduct->setPrice($request->input('price'));
         $newProduct->setImage('default_image.png');
+        $newProduct->setStock($request->input('stock'));
         $newProduct->save();
 
         if ($request->hasFile('image')) {
@@ -54,9 +55,8 @@ class AdminProductController extends Controller
     public function edit($id): View
     {
         $viewData = [];
-        $viewData['title'] = 'Admin Page - Edit Product - Pet Store';
+        $viewData['title'] = 'Admin Page - Edit Product - Zuca Store';
         $viewData['product'] = Product::findOrFail($id);
-
         return view('admin.product.edit')->with('viewData', $viewData);
     }
 
@@ -69,7 +69,7 @@ class AdminProductController extends Controller
         $product->setName($request->input('name'));
         $product->setDescription($request->input('description'));
         $product->setPrice($request->input('price'));
-
+        $product->setStock($request->input('stock'));
         if ($request->hasFile('image')) {
             $imageName = $product->getId().'.'.$request->file('image')->extension();
             Storage::disk('public')->put(

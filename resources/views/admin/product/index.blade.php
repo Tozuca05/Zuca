@@ -49,9 +49,19 @@
                         </div>
                     </div>
                     <div class="col">
+                        <div class="mb-3 row">
+                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Stock:</label>
+                            <div class="col-lg-10 col-md-6 col-sm-12">
+                                <input name="stock" value="{{ old('stock') }}" type="number" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col">
                         &nbsp;
                     </div>
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label">Description</label>
                     <textarea class="form-control" name="description" rows="3" required>{{ old('description') }}</textarea>
@@ -66,38 +76,44 @@
             Manage Products
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach ($viewData["products"] as $product)
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ $product->getId() }}</td>
-                        <td>{{ $product->getName() }}</td>
-                        <td>
-                            <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
-                                <i class="bi-pencil"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <form action="{{ route('admin.product.delete', $product->getId())}}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger">
-                                    <i class="bi-trash"></i>
-                                </button>
-                            </form>
-                        </td>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col" class="d-none d-md-table-cell">Price</th>
+                        <th scope="col" class="d-none d-lg-table-cell">Stock</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach ($viewData["products"] as $product)
+                        <tr>
+                            <td>{{ $product->getId() }}</td>
+                            <td>{{ $product->getName() }}</td>
+                            <td class="d-none d-md-table-cell">{{ $product->getPrice() }}</td>
+                            <td class="d-none d-lg-table-cell">{{ $product->getStock() }}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{{ route('admin.product.edit', ['id'=> $product->getId()]) }}">
+                                    <i class="bi-pencil"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <form action="{{ route('admin.product.delete', $product->getId())}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">
+                                        <i class="bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
