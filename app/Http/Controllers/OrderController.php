@@ -63,16 +63,11 @@ class OrderController extends Controller
         if ($order->getUserId() !== $user->getId()) {
             return redirect()->route('order.index')->with('error', 'Unauthorized action.');
         }
-
-        // Check if user has enough balance
         if ($user->getBalance() < $order->getTotal()) {
           return redirect()->route('order.index')->with('error', 'Insufficient balance.');
         }
-        // Deduct the order total from user's balance
         $user->setBalance($user->getBalance() - $order->getTotal());
         $user->save();
-
-        // Update stock for each item in the order
         $items = Item::where('order_id', $order->getId())->get();
         foreach ($items as $item) {
             $product = Product::findOrFail($item->getProductId());
@@ -80,11 +75,9 @@ class OrderController extends Controller
             $product->save();
         }
 
-        // Update order status to 'Paid'
         $order->setStatus('Paid');
         $order->save();
 
         return redirect()->route('order.index')->with('success', 'Order paid successfully.');
     }
-    
 }

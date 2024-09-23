@@ -2,6 +2,16 @@
 @section('title', $viewData["title"])
 @section('subtitle', $viewData["subtitle"])
 @section('content')
+<div class="search-container">
+    <form class="search-form" method="GET" action="{{ route('product.search') }}">
+        <div class="input-group">
+            <input type="text" class="form-control" name="query" placeholder="{{ __('Search for products...') }}">
+            <div class="input-group-append">
+                <button class="btn btn-search" type="submit">{{ __('Search') }}</button>
+            </div>
+        </div>
+    </form>
+</div>
 <div class="row">
     @foreach ($viewData["products"] as $product)
         <div class="col-md-4 col-lg-3 mb-2">

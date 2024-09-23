@@ -109,6 +109,14 @@
                                     </button>
                                 </form>
                             </td>
+                            <td>
+                                <form action="{{ route('cart.add', ['id'=> $product->getId()])}}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-success">
+                                        <i class="bi-cart-plus"></i>
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

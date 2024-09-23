@@ -34,12 +34,54 @@
                             </button>
                             @endif
                             <a href="{{ route('product.index') }}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Back to Products<img src="{{ asset('storage/'.$viewData['product']->getImage()) }}" class="img-fluid rounded-start" alt="{{ $viewData['product']->getName() }}">
+                                <i class="bi bi-arrow-left"></i> Back to Products
                             </a>
+                        </form>
+                        <form id="add-to-cart-{{ $viewData['product']->getId() }}" method="POST" action="{{ route('cart.add', ['id'=> $viewData['product']->getId()]) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-success add-to-cart" data-product-id="{{ $viewData['product']->getId() }}">
+                                <i class="bi bi-cart-plus"></i> Add to Cart
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+$(document).ready(function() {
+    $('.add-to-cart').click(function(e) {
+        e.preventDefault();
+        var productId = $(this).data('product-id');
+        var form = $('#add-to-cart-' + productId);
+        
+        $.ajax({
+            url: form.attr('action'),
+            method: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                Swal.fire({
+                    title: '{{ __("Success!") }}',
+                    text: '{{ __("Product added to cart successfully") }}',
+                    icon: 'success',
+                    confirmButtonText: '{{ __("OK") }}'
+                });
+            },
+            error: function() {
+                Swal.fire({
+                    title: '{{ __("Error!") }}',
+                    text: '{{ __("Error adding product to cart") }}',
+                    icon: 'error',
+                    confirmButtonText: '{{ __("OK") }}'
+                });
+            }
+        });
+    });
+});
+</script>
 @endsection
