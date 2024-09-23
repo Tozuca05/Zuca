@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Order; 
 
 class User extends Authenticatable
 {
-    
-
     /**
      * USER ATTRIBUTES
      * $this->attributes['id'] - int - contains the user primary key (id)
@@ -16,10 +15,27 @@ class User extends Authenticatable
      * $this->attributes['password'] - string - contains the user password
      * $this->attributes['role'] - string - contains the user role (admin/user)
      * $this->attributes['balance'] - int - contains the user balance
+     * $this->orders - Order[] - contains the associated orders
      * $this->attributes['created_at'] - timestamp - contains the creation date of the user
      * $this->attributes['updated_at'] - timestamp - contains the last update date of the user
      */
-    protected $fillable = ['name', 'email', 'password', 'role', 'balance'];
+    
+    protected $fillable = ['name', 'email', 'password'];
+
+    public function orders() 
+    { 
+        return $this->hasMany(Order::class); 
+    } 
+     
+    public function getOrders() 
+    { 
+        return $this->orders; 
+    } 
+ 
+    public function setOrders($orders) 
+    { 
+        $this->orders = $orders; 
+    } 
 
     public function getId(): int
     {
@@ -83,7 +99,7 @@ class User extends Authenticatable
 
     public function getCreatedAt(): \DateTime
     {
-        return $this->attributes['created_at'];
+        return new \DateTime($this->attributes['created_at']);
     }
 
     public function setCreatedAt($createdAt): void
@@ -93,7 +109,7 @@ class User extends Authenticatable
 
     public function getUpdatedAt(): \DateTime
     {
-        return $this->attributes['updated_at'];
+        return new \DateTime($this->attributes['updated_at']);
     }
 
     public function setUpdatedAt($updatedAt): void
