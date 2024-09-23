@@ -34,8 +34,12 @@ class CartController extends Controller
  
     public function add(Request $request, $id): JsonResponse|RedirectResponse
     { 
-        $products = $request->session()->get("products"); 
-        $products[$id] = $request->input('quantity', 1); 
+        $products = $request->session()->get("products");
+        if (isset($products[$id])) {
+            $products[$id]++;
+        } else {
+            $products[$id] = 1;
+        }
         $request->session()->put('products', $products); 
  
         if ($request->ajax()) { 
