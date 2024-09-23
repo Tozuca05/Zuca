@@ -17,8 +17,9 @@ return new class extends Migration
             $table->text('description');
             $table->string('image');
             $table->integer('price');
-            $table->timestamps();
             $table->integer('stock');
+            $table->foreignId('tag_id')->constrained('tags');
+            $table->timestamps();
         });
     }
 
