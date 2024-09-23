@@ -50,7 +50,9 @@
                         </div>
                     </div>
                 </div>
-                @yield('content')
+                <div class="content-wrapper">
+                    @yield('content')
+                </div>
             </main>
         </div>
     </div>

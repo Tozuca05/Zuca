@@ -18,6 +18,7 @@ class Product extends Model
      * $this->attributes['updated_at'] - timestamp - contains the product update date
      * $this->attributes['stock'] - int - contains the product stock
      */
+    
     public function getId(): int
     {
         return $this->attributes['id'];
