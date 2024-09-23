@@ -22,6 +22,13 @@ Route::middleware('auth', 'App\Http\Middleware\AdminMiddleware')->group(function
     Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\AdminProductController@edit')->name('admin.product.edit');
     Route::put('/admin/products/{id}/update', 'App\Http\Controllers\Admin\AdminProductController@update')->name('admin.product.update');
     Route::get('/admin/items/top-sold', 'App\Http\Controllers\Admin\AdminItemController@topSoldProducts')->name('admin.item.topSoldProducts');
+    Route::get('/admin/tags', 'App\Http\Controllers\Admin\AdminTagController@index')->name('admin.tag.index');
+    Route::get('/admin/tags/{id}', 'App\Http\Controllers\Admin\AdminTagController@show')->name('admin.tag.show');
+    Route::get('/admin/tags/search', 'App\Http\Controllers\Admin\AdminTagController@search')->name('admin.tag.search');
+    Route::post('/admin/tags/store', 'App\Http\Controllers\Admin\AdminTagController@store')->name('admin.tag.store');
+    Route::get('/admin/tags/{id}/edit', 'App\Http\Controllers\Admin\AdminTagController@edit')->name('admin.tag.edit');
+    Route::put('/admin/tags/{id}/update', 'App\Http\Controllers\Admin\AdminTagController@update')->name('admin.tag.update');
+    Route::delete('/admin/tags/{id}/delete', 'App\Http\Controllers\Admin\AdminTagController@delete')->name('admin.tag.delete');
 });
 
 Route::middleware('auth')->group(function () {
@@ -29,3 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
     Route::post('/orders/pay/{id}', 'App\Http\Controllers\OrderController@pay')->name("order.pay");
 });
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

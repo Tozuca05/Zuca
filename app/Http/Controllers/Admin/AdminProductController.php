@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +17,7 @@ class AdminProductController extends Controller
         $viewData = [];
         $viewData['title'] = 'Admin Page - Products - Zuca Store';
         $viewData['products'] = Product::all();
+        $viewData['tags'] = Tag::all();
 
         return view('admin.product.index')->with('viewData', $viewData);
     }
@@ -24,12 +26,13 @@ class AdminProductController extends Controller
     {
         Product::validate($request);
 
-        $newProduct = new Product;
+        $newProduct = new Product();
         $newProduct->setName($request->input('name'));
         $newProduct->setDescription($request->input('description'));
         $newProduct->setPrice($request->input('price'));
         $newProduct->setImage('default_image.png');
         $newProduct->setStock($request->input('stock'));
+        $newProduct->tag()->associate($request->input('tag_id'));
         $newProduct->save();
 
         if ($request->hasFile('image')) {
@@ -42,14 +45,14 @@ class AdminProductController extends Controller
             $newProduct->save();
         }
 
-        return redirect()->route('admin.product.index')->with('success', 'Element created successfully.');
+        return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
     }
 
     public function delete($id): RedirectResponse
     {
         Product::destroy($id);
 
-        return redirect()->route('product.index');
+        return redirect()->route('admin.product.index')->with('success', 'Product deleted successfully.');
     }
 
     public function edit($id): View
@@ -57,6 +60,7 @@ class AdminProductController extends Controller
         $viewData = [];
         $viewData['title'] = 'Admin Page - Edit Product - Zuca Store';
         $viewData['product'] = Product::findOrFail($id);
+        $viewData['tags'] = Tag::all();
         return view('admin.product.edit')->with('viewData', $viewData);
     }
 
@@ -70,6 +74,8 @@ class AdminProductController extends Controller
         $product->setDescription($request->input('description'));
         $product->setPrice($request->input('price'));
         $product->setStock($request->input('stock'));
+        $product->tag()->associate($request->input('tag_id'));
+        
         if ($request->hasFile('image')) {
             $imageName = $product->getId().'.'.$request->file('image')->extension();
             Storage::disk('public')->put(
@@ -81,6 +87,6 @@ class AdminProductController extends Controller
 
         $product->save();
 
-        return redirect()->route('admin.product.index');
+        return redirect()->route('admin.product.index')->with('success', 'Product updated successfully.');
     }
 }
