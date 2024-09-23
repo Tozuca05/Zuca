@@ -30,6 +30,11 @@
                                 <i class="bi bi-box me-2"></i>Products
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.item.topSoldProducts') }}" class="nav-link text-white">
+                                <i class="bi bi-graph-up me-2"></i>Statistics
+                            </a>
+                        </li>
                     </ul>
                     <hr class="text-white" />
                     <div class="d-grid gap-2">

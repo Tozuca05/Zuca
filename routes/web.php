@@ -20,6 +20,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/admin/products/{id}/delete', 'App\Http\Controllers\Admin\AdminProductController@delete')->name('admin.product.delete');
     Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\AdminProductController@edit')->name('admin.product.edit');
     Route::put('/admin/products/{id}/update', 'App\Http\Controllers\Admin\AdminProductController@update')->name('admin.product.update');
+    Route::get('/admin/items/top-sold', 'App\Http\Controllers\Admin\AdminItemController@topSoldProducts')->name('admin.item.topSoldProducts');
 });
 
 Route::middleware('auth')->group(function () {
