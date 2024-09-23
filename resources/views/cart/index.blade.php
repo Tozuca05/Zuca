@@ -14,7 +14,6 @@
           <th scope="col">Name</th> 
           <th scope="col">Price</th> 
           <th scope="col">Quantity</th> 
-          <th scope="col">Total</th>
           <th scope="col">Remove</th>
         </tr> 
       </thead> 
@@ -26,7 +25,6 @@
           <td>{{ $product->getName() }}</td> 
           <td>${{ $product->getPrice() }}</td> 
           <td>{{ session('products')[$product->getId()] }}</td>
-          <td>${{ $product->getPrice() * session('products')[$product->getId()] }}</td>
           <td>
             <a href="{{ route('cart.remove', ['id' => $product->getId()]) }}" class="btn btn-danger">
               Remove

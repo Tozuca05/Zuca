@@ -82,8 +82,8 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
-                        <th scope="col" class="d-none d-md-table-cell">Price</th>
-                        <th scope="col" class="d-none d-lg-table-cell">Stock</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Stock</th>
                         <th scope="col">Edit</th>
                         <th scope="col">Delete</th>
                     </tr>
@@ -93,8 +93,8 @@
                         <tr>
                             <td>{{ $product->getId() }}</td>
                             <td>{{ $product->getName() }}</td>
-                            <td class="d-none d-md-table-cell">{{ $product->getPrice() }}</td>
-                            <td class="d-none d-lg-table-cell">{{ $product->getStock() }}</td>
+                            <td>{{ $product->getPrice() }}</td>
+                            <td>{{ $product->getStock() }}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{ route('admin.product.edit', ['id'=> $product->getId()]) }}">
                                     <i class="bi-pencil"></i>

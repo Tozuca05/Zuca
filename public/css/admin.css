@@ -34,15 +34,14 @@ hr {
     background-color: #f8f9fc;
     margin-left: 250px; 
     width: calc(100% - 250px);
-    padding: 20px; 
+    padding: 20px;
+    overflow-x: auto; 
 }
-
 
 .card-header {
     background-color: #f8f9fc;
     border-bottom: 1px solid #e3e6f0;
 }
-
 
 .img-profile {
     height: 2rem;
@@ -55,12 +54,10 @@ hr {
     font-weight: 400;
 }
 
-
 .footer {
     background-color: #1a252f;
     color: #fff;
 }
-
 
 .fixed {
     -ms-flex: 0 0 250px;
@@ -68,7 +65,9 @@ hr {
 }
 
 .table-responsive {
-    overflow-x: auto; 
+    overflow-x: auto;
+    min-width: 100%; 
+    width: auto; 
 }
 
 @media (max-width: 767.98px) {
@@ -80,5 +79,6 @@ hr {
     .content-grey {
         margin-left: 0;
         width: 100%;
+        overflow-x: auto; 
     }
 }

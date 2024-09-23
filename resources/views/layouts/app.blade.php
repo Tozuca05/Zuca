@@ -6,9 +6,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
     <title>@yield('title', 'My Laravel App')</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-4"> <!-- Altura ajustada -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-4"> 
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home.index') }}">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo ZUCA" class="custom-logo">
@@ -61,5 +62,6 @@
     </footer>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    @yield('scripts')
 </body>
 </html>
