@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Models;
 
@@ -106,7 +106,7 @@ class Product extends Model
             'description' => 'required',
             'price' => 'required|numeric|gt:0',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'stock' => 'required|numeric|gt:0',
+            'stock' => 'required|numeric|gt:-1',
         ]);
     }
     public static function sumPricesByQuantities($products, $productsInSession) 

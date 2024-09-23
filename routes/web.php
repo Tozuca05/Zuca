@@ -13,6 +13,7 @@ Route::get('/cart', 'App\Http\Controllers\CartController@index')->name("cart.ind
 Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("cart.delete"); 
 Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("cart.add"); 
 Route::get('/cart/remove/{id}', 'App\Http\Controllers\CartController@remove')->name('cart.remove');
+Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name('admin.home.index');
     Route::get('/admin/products', 'App\Http\Controllers\Admin\AdminProductController@index')->name('admin.product.index');
