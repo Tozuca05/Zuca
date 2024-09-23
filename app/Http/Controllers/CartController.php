@@ -28,12 +28,18 @@ class CartController extends Controller
  
     public function add(Request $request, $id) 
     { 
-        $products = $request->session()->get("products"); 
-        $products[$id] = $request->input('quantity'); 
-        $request->session()->put('products', $products); 
+        $products = $request->session()->get("products");
+        if (isset($products[$id])) {
+            $products[$id]++;
+            $request->session()->put('products', $products);
+        } else {
+            $products[$id] = 1;
+            $request->session()->put('products', $products);
+        }
  
         return redirect()->route('cart.index'); 
-    } 
+    }
+
  
     public function delete(Request $request) 
     { 
