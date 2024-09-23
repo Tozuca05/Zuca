@@ -14,7 +14,7 @@ Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("
 Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("cart.add"); 
 Route::get('/cart/remove/{id}', 'App\Http\Controllers\CartController@remove')->name('cart.remove');
 Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
-Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+Route::middleware('auth', 'App\Http\Middleware\AdminMiddleware')->group(function () {
     Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name('admin.home.index');
     Route::get('/admin/products', 'App\Http\Controllers\Admin\AdminProductController@index')->name('admin.product.index');
     Route::post('/admin/products/store', 'App\Http\Controllers\Admin\AdminProductController@store')->name('admin.product.store');
