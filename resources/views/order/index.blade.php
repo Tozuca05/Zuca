@@ -25,10 +25,15 @@
                         </div>
                     </div>
                     <div class="card-footer text-end">
-                        <form method="POST" action="{{ route('order.pay', ['id' => $order->getId()]) }}">
-                            @csrf
-                            <button type="submit" class="btn btn-success">Pay</button>
-                        </form>
+                        @if($order->getStatus() == "Not paid")
+                            <form method="POST" action="{{ route('order.pay', ['id' => $order->getId()]) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Pay</button>
+                            </form>
+                        @else
+                            <p class="text-success mb-2">Order is paid</p>
+                            <a href="{{ route('order.generateInvoice', ['id' => $order->getId()]) }}" class="btn btn-primary">Generate Invoice</a>
+                        @endif
                     </div>
                 </div>
             </div>
