@@ -33,6 +33,7 @@
                             <a class="nav-link active" href="{{ route('admin.home.index') }}">Admin Panel</a>
                         @endif
                         <a class="nav-link active" href="{{ route('cart.index') }}">Cart of Products</a>
+                        <a class="nav-link active" href="{{ route('order.index') }}">My orders</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
