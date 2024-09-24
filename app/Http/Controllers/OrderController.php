@@ -9,7 +9,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderController extends Controller
@@ -110,23 +109,4 @@ class OrderController extends Controller
         return redirect()->route('order.index')->with('success', 'Order paid successfully.');
     }
 
-    public function generateInvoice(string $id)
-    {
-        $order = Order::findOrFail($id);
-        $user = Auth::user();
-
-        if ($order->getUserId() !== $user->getId()) {
-            return redirect()->route('order.index')->with('error', 'Unauthorized action.');
-        }
-
-        $items = Item::where('order_id', $order->getId())->get();
-        $data = [
-            'order' => $order,
-            'user' => $user,
-            'items' => $items,
-        ];
-
-        $pdf = PDF::loadView('invoice', $data);
-        return $pdf->download('invoice_' . $order->getId() . '.pdf');
-    }
 }
