@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
 Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name('product.show');
@@ -35,12 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/create', 'App\Http\Controllers\OrderController@create')->name('order.create');
     Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
     Route::post('/orders/pay/{id}', 'App\Http\Controllers\OrderController@pay')->name("order.pay");
-<<<<<<< HEAD
-});
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-=======
     Route::get('/orders/generate-invoice/{id}', 'App\Http\Controllers\OrderController@generateInvoice')->name('order.generateInvoice');
 });
->>>>>>> b89d49c66637fc15ebffb1ea6657f09d2ce3bcf1
+
+Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
