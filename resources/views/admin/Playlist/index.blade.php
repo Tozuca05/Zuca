@@ -81,7 +81,7 @@
                     <td>{{ $playlist->getId() }}</td>
                     <td>{{ $playlist->getName() }}</td>
                     <td><a href="{{ $playlist->getLink() }}" target="_blank">{{ $playlist->getLink() }}</a></td>
-                    <td>{{ $playlist->tag ? $playlist->tag->getName() : 'No Tag' }}</td>
+                    <td>{{ $playlist->getTag() ? $playlist->getTag()->getName() : 'No Tag' }}</td>
                     <td>
                         <a class="btn btn-primary" href="{{ route('admin.playlist.edit', ['id'=> $playlist->getId()]) }}">
                             <i class="bi-pencil"></i>

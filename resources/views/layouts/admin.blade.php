@@ -50,7 +50,6 @@
                     <div class="d-grid gap-2">
                         <a href="{{ route('home.index') }}" class="btn btn-primary">Go to Main Page</a>
                         <a href="{{ route('product.index') }}" class="btn btn-secondary">Product List</a>
-                        <a href="{{ route('admin.playlist.create') }}" class="btn btn-success">Create Playlist</a>
                     </div>
                 </div>
             </nav>

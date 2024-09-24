@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Playlist;
 
 class Order extends Model
 {
@@ -25,14 +30,19 @@ class Order extends Model
         'status',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function items()
+    public function items(): HasMany
     {
         return $this->hasMany(Item::class);
+    }
+
+    public function playlists(): BelongsToMany
+    {
+        return $this->belongsToMany(Playlist::class);
     }
 
     public function getId(): int
@@ -75,25 +85,17 @@ class Order extends Model
         $this->attributes['status'] = $status;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?string
     {
         return $this->attributes['created_at'];
     }
 
-    public function setCreatedAt($createdAt): void
-    {
-        $this->attributes['created_at'] = $createdAt;
-    }
-
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?string
     {
         return $this->attributes['updated_at'];
     }
 
-    public function setUpdatedAt($updatedAt): void
-    {
-        $this->attributes['updated_at'] = $updatedAt;
-    }
+
 
     public function getUser(): User
     {
@@ -105,12 +107,12 @@ class Order extends Model
         $this->user = $user;
     }
 
-    public function getItems()
+    public function getItems(): HasMany
     {
         return $this->items;
     }
 
-    public function setItems($items): void
+    public function setItems(HasMany $items): void
     {
         $this->items = $items;
     }
@@ -122,5 +124,30 @@ class Order extends Model
             "user_id" => "required|exists:users,id",
             "status" => "required|in:Pending,Paid,Shipped,Delivered",
         ]);
+    }
+
+    public function calculateTotal(): int
+    {
+        return $this->items->sum(function ($item) {
+            return $item->getPrice() * $item->getQuantity();
+        });
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->getStatus() === 'Paid';
+    }
+
+    public function getAssociatedPlaylist(): ?Playlist
+    {
+        $maxQuantity = 0;
+        $playlistToShow = null;
+        foreach ($this->items as $item) {
+            if ($item->getQuantity() > $maxQuantity && $item->getProduct()->tag && $item->getProduct()->tag->playlist) {
+                $maxQuantity = $item->getQuantity();
+                $playlistToShow = $item->getProduct()->tag->playlist;
+            }
+        }
+        return $playlistToShow;
     }
 }

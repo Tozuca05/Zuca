@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Order;
 
 class Playlist extends Model
 {
@@ -18,7 +21,7 @@ class Playlist extends Model
      * $this->attributes['updated_at'] - timestamp - contains the playlist update date
      */
 
-    public function tag()
+    public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
     }
@@ -81,5 +84,20 @@ class Playlist extends Model
             'image_url' => 'nullable|url',
             'tag_id' => 'required|exists:tags,id',
         ]);
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    public function getTag(): Tag
+    {
+        return $this->tag;
     }
 }

@@ -21,8 +21,8 @@
                 <tbody>
                     @foreach($viewData['topProducts'] as $item)
                         <tr>
-                            <td>{{ $item->product->getName() }}</td>
-                            <td>{{ $item->total_sold }}</td>
+                            <td>{{ $item->getProduct()->getName() }}</td>
+                            <td>{{ $item->getTotalSold() }}</td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Item;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model
 {
@@ -15,28 +17,28 @@ class Product extends Model
      * $this->attributes['description'] - string - contains the product description
      * $this->attributes['image'] - string - contains the product image
      * $this->attributes['price'] - int - contains the product price
-     * $this->attributes['created_at'] - timestamp - contains the product creation date
-     * $this->attributes['updated_at'] - timestamp - contains the product update date
+     * $this->attributes['created_at'] - string - timestamp - contains the product creation date
+     * $this->attributes['updated_at'] - string - timestamp - contains the product update date
      * $this->attributes['stock'] - int - contains the product stock
      * $this->attributes['tag_id'] - int - contains the id of the associated tag
      */
 
-    public function items() 
+    public function items(): HasMany
     { 
         return $this->hasMany(Item::class); 
     } 
 
-    public function tag()
+    public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
     }
      
-    public function getItems() 
+    public function getItems(): HasMany
     { 
         return $this->items; 
     } 
  
-    public function setItems($items) 
+    public function setItems(HasMany $items): void
     { 
         $this->items = $items; 
     }
@@ -123,7 +125,7 @@ class Product extends Model
         ]);
     }
 
-    public static function sumPricesByQuantities($products, $productsInSession) 
+    public static function sumPricesByQuantities($products, $productsInSession): int
     { 
         $total = 0; 
         foreach ($products as $product) { 

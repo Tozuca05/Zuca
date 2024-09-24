@@ -42,7 +42,8 @@
           <button class="btn btn-danger mb-2"> 
             Remove all products from Cart 
           </button> 
-        </a> 
+        </a>  
+
       </div> 
     </div> 
   </div> 

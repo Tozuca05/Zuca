@@ -2,19 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Product;
+use App\Models\Playlist;
 
 class Tag extends Model
 {
     /**
      * TAG ATTRIBUTES
-     * $this->attributes['id'] - int - contiene la clave primaria (id) de la etiqueta
-     * $this->attributes['name'] - string - contiene el nombre de la etiqueta
-     * $this->attributes['created_at'] - timestamp - contiene la fecha de creación de la etiqueta
-     * $this->attributes['updated_at'] - timestamp - contiene la fecha de actualización de la etiqueta
+     * $this->attributes['id'] - int - contains the tag primary key (id)
+     * $this->attributes['name'] - string - contains the tag name
+     * $this->attributes['created_at'] - timestamp - contains the tag creation date
+     * $this->attributes['updated_at'] - timestamp - contains the tag update date
      */
 
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function playlist(): HasOne
+    {
+        return $this->hasOne(Playlist::class);
+    }
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -35,20 +47,9 @@ class Tag extends Model
         return $this->attributes['created_at'];
     }
 
-    public function setCreatedAt($createdAt): void
-    {
-        $this->attributes['created_at'] = $createdAt;
-    }
-
     public function getUpdatedAt(): string
     {
         return $this->attributes['updated_at'];
     }
 
-    public function setUpdatedAt($updatedAt): void
-    {
-        $this->attributes['updated_at'] = $updatedAt;
-    }
-
-    // ... código existente ...
 }

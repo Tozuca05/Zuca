@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model; 
 use App\Models\Order; 
 use App\Models\Product; 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
  
 class Item extends Model 
 { 
@@ -21,7 +22,7 @@ class Item extends Model
      * $this->product - Product - contains the associated Product 
      */ 
  
-    public static function validate($request) 
+    public static function validate($request): void
     { 
         $request->validate([ 
             "price" => "required|numeric|gt:0", 
@@ -31,101 +32,92 @@ class Item extends Model
         ]); 
     } 
      
-    public function getId() 
+    public function getId(): int
     { 
         return $this->attributes['id']; 
     } 
- 
-    public function setId($id) 
+
+    public function setId(int $id): void
     { 
         $this->attributes['id'] = $id; 
     } 
- 
-    public function getQuantity() 
+
+    public function getQuantity(): int
     { 
         return $this->attributes['quantity']; 
     } 
- 
-    public function setQuantity($quantity) 
+
+    public function setQuantity(int $quantity): void
     { 
         $this->attributes['quantity'] = $quantity; 
     } 
- 
-    public function getPrice() 
+
+    public function getPrice(): int
     { 
         return $this->attributes['price']; 
     } 
- 
-    public function setPrice($price) 
+
+    public function setPrice(int $price): void
     { 
         $this->attributes['price'] = $price; 
     } 
- 
-    public function getOrderId() 
+
+    public function getOrderId(): int
     { 
         return $this->attributes['order_id']; 
     }  
-    public function setOrderId($orderId) 
+
+    public function setOrderId(int $orderId): void
     { 
         $this->attributes['order_id'] = $orderId; 
     } 
- 
-    public function getProductId() 
+
+    public function getProductId(): int
     { 
         return $this->attributes['product_id']; 
     } 
- 
-    public function setProductId($productId) 
+
+    public function setProductId(int $productId): void
     { 
         $this->attributes['product_id'] = $productId; 
     } 
- 
-    public function getCreatedAt() 
+
+    public function getCreatedAt(): string
     { 
         return $this->attributes['created_at']; 
     } 
- 
-    public function setCreatedAt($createdAt) 
-    { 
-        $this->attributes['created_at'] = $createdAt; 
-    } 
- 
-    public function getUpdatedAt() 
+
+    public function getUpdatedAt(): string
     { 
         return $this->attributes['updated_at']; 
     } 
- 
-    public function setUpdatedAt($updatedAt) 
-    { 
-        $this->attributes['updated_at'] = $updatedAt; 
-    } 
- 
-    public function order() 
+
+    public function order(): BelongsTo
     { 
         return $this->belongsTo(Order::class); 
     } 
- 
-    public function getOrder() 
+
+    public function getOrder(): Order
     { 
         return $this->order; 
     } 
- 
-    public function setOrder($order) 
+
+    public function setOrder(Order $order): void
     { 
         $this->order = $order; 
     } 
- 
-    public function product() 
+
+    public function product(): BelongsTo
     { 
         return $this->belongsTo(Product::class); 
     } 
      
-    public function getProduct() 
+    public function getProduct(): Product
     { 
         return $this->product; 
     } 
- 
-    public function setProduct($product) 
+
+    public function setProduct(Product $product): void
     { 
         $this->product = $product; 
     } 

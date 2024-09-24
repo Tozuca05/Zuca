@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('title', 'My Orders')
+@section('title', $viewData["title"])
+@section('subtitle',$viewData["subtitle"])
 @section('content')
 <div class="row">
     @if(count($viewData['orders']) > 0)
@@ -13,7 +14,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Order Summary</h5>
                         <ul class="list-group list-group-flush">
-                            @foreach ($order->items as $item)
+                            @foreach ($order->getItems() as $item)
                                 <li class="list-group-item">
                                     {{ $item->getProduct()->getName() }} 
                                     (x{{ $item->getQuantity() }}): ${{ $item->getPrice() * $item->getQuantity() }}
@@ -32,7 +33,14 @@
                             </form>
                         @else
                             <p class="text-success mb-2">Order is paid</p>
-                            <a href="{{ route('order.generateInvoice', ['id' => $order->getId()]) }}" class="btn btn-primary">Generate Invoice</a>
+                        @endif
+                        @php
+                            $playlistToShow = $order->getAssociatedPlaylist();
+                        @endphp
+                        @if($playlistToShow)
+                            <a href="{{ $playlistToShow->getLink() }}" class="btn btn-primary" target="_blank">
+                                Check your playlist
+                            </a>
                         @endif
                     </div>
                 </div>
@@ -40,7 +48,7 @@
         @endforeach
     @else
         <div class="col-12">
-            <p class="text-center">You have no orders pending payment.</p>
+            <p class="text-center">You have no orders.</p>
         </div>
     @endif
 </div>
