@@ -21,8 +21,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
     Route::post('/orders/pay/{id}', 'App\Http\Controllers\OrderController@pay')->name("order.pay");
 });
-<<<<<<< HEAD
-=======
 
 Route::post('/cart/substract/{id}', 'App\Http\Controllers\CartController@subtract')->name('cart.subtract');
 Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
@@ -54,4 +52,3 @@ Route::middleware('auth', 'App\Http\Middleware\AdminMiddleware')->group(function
     Route::put('/admin/playlist/{id}', 'App\Http\Controllers\Admin\AdminPlaylistController@update')->name('admin.playlist.update');
     Route::delete('/admin/playlist/{id}', 'App\Http\Controllers\Admin\AdminPlaylistController@delete')->name('admin.playlist.delete');
 });
->>>>>>> 6ff2c0fb9b1f23607e154081ad802a34970b70f7
