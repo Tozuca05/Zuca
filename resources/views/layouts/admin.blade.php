@@ -40,11 +40,17 @@
                                 <i class="bi bi-graph-up me-2"></i>Statistics
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.playlist.index') }}" class="nav-link text-white">
+                                <i class="bi bi-music-note-list me-2"></i>Playlists
+                            </a>
+                        </li>
                     </ul>
                     <hr class="text-white" />
                     <div class="d-grid gap-2">
                         <a href="{{ route('home.index') }}" class="btn btn-primary">Go to Main Page</a>
                         <a href="{{ route('product.index') }}" class="btn btn-secondary">Product List</a>
+                        <a href="{{ route('admin.playlist.create') }}" class="btn btn-success">Create Playlist</a>
                     </div>
                 </div>
             </nav>
