@@ -32,7 +32,7 @@ class CartController extends Controller
         return view('cart.index')->with("viewData", $viewData); 
     } 
  
-    public function add(Request $request, $id): JsonResponse|RedirectResponse
+    public function add(Request $request, int $id): JsonResponse|RedirectResponse
     { 
         $products = $request->session()->get("products");
         if (isset($products[$id])) {
@@ -48,6 +48,19 @@ class CartController extends Controller
  
         return redirect()->back()->with('success', 'Product added to cart successfully'); 
     } 
+
+    public function subtract(Request $request, int $id): RedirectResponse
+    {
+        $products = $request->session()->get("products");
+        if (isset($products[$id]) && $products[$id] > 1) {
+            $products[$id]--;
+        } else {
+            unset($products[$id]);
+        }
+
+        $request->session()->put('products', $products);
+        return back();
+    }
  
     public function delete(Request $request): RedirectResponse
     { 
