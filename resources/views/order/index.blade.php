@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-end">
-                        @if($order->getStatus() == "Not paid")
+                        @if($order->getStatus() == "Pending")
                             <form method="POST" action="{{ route('order.pay', ['id' => $order->getId()]) }}">
                                 @csrf
                                 <button type="submit" class="btn btn-success">Pay</button>

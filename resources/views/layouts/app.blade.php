@@ -28,6 +28,9 @@
                             <a class="nav-link active" href="{{ route('register') }}">Register</a>
                         @endif
                     @else
+                        @if(Auth::user()->role === 'user')
+                        <p class="nav-link active text-white">Your balance: {{ Auth::user()->getBalance() }}</p>
+                        @endif
                         <a class="nav-link active" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                         @if (Auth::user()->getRole() === 'admin')
                             <a class="nav-link active" href="{{ route('admin.home.index') }}">Admin Panel</a>

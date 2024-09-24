@@ -17,7 +17,6 @@ class OrderController extends Controller
     public function index(Request $request): View
     {
         $orders = Order::where('user_id', Auth::id())
-                       ->where('status', 'Pending')
                        ->get();
 
         $viewData = [
