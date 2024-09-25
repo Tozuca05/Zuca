@@ -118,4 +118,9 @@ class Item extends Model
     {
         $this->product = $product;
     }
+
+    public function getTotalSold(): int
+    {
+        return $this->attributes['total_sold'] ?? 0;
+    }
 }

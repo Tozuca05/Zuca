@@ -95,6 +95,6 @@ class Playlist extends Model
 
     public function getTag(): Tag
     {
-        return $this->tag();
+        return $this->tag;
     }
 }
