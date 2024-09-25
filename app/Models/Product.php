@@ -1,12 +1,10 @@
-<?php 
+<?php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Item;
-use App\Models\Tag;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -22,27 +20,26 @@ class Product extends Model
      * $this->attributes['stock'] - int - contains the product stock
      * $this->attributes['tag_id'] - int - contains the id of the associated tag
      */
-
     public function items(): HasMany
-    { 
-        return $this->hasMany(Item::class); 
-    } 
+    {
+        return $this->hasMany(Item::class);
+    }
 
     public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
     }
-     
+
     public function getItems(): HasMany
-    { 
-        return $this->items(); 
-    } 
- 
-    public function setItems(HasMany $items): void
-    { 
-        $this->items = $items; 
+    {
+        return $this->items();
     }
-    
+
+    public function setItems(HasMany $items): void
+    {
+        $this->items = $items;
+    }
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -126,12 +123,12 @@ class Product extends Model
     }
 
     public static function sumPricesByQuantities($products, $productsInSession): int
-    { 
-        $total = 0; 
-        foreach ($products as $product) { 
-            $total = $total + ($product->getPrice()*$productsInSession[$product->getId()]); 
-        } 
- 
-        return $total; 
-    } 
+    {
+        $total = 0;
+        foreach ($products as $product) {
+            $total = $total + ($product->getPrice() * $productsInSession[$product->getId()]);
+        }
+
+        return $total;
+    }
 }

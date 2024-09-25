@@ -3,10 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tag;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\Order;
 
 class Playlist extends Model
 {
@@ -20,7 +18,6 @@ class Playlist extends Model
      * $this->attributes['created_at'] - timestamp - contains the playlist creation date
      * $this->attributes['updated_at'] - timestamp - contains the playlist update date
      */
-
     public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);

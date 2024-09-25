@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Models\Product;
-use App\Models\Playlist;
 
 class Tag extends Model
 {
@@ -18,7 +16,6 @@ class Tag extends Model
      * $this->attributes['updated_at'] - timestamp - contains the tag update date
      * $this->orders - Products[] - contains the associated orders
      */
-
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
@@ -28,6 +25,7 @@ class Tag extends Model
     {
         return $this->hasOne(Playlist::class);
     }
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -52,5 +50,4 @@ class Tag extends Model
     {
         return $this->attributes['updated_at'];
     }
-
 }

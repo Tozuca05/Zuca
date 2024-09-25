@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderController extends Controller
 {
     public function index(Request $request): View
     {
         $orders = Order::where('user_id', Auth::id())
-                       ->get();
+            ->get();
 
         $viewData = [
             'title' => 'Orders - Zuca Store',
@@ -55,7 +55,7 @@ class OrderController extends Controller
             $userId = Auth::id();
             $order = new Order;
             $order->setUserId($userId);
-            $order->setStatus("Pending");
+            $order->setStatus('Pending');
             $order->setTotal(0);
             $order->save();
 
@@ -107,5 +107,4 @@ class OrderController extends Controller
 
         return redirect()->route('order.index')->with('success', 'Order paid successfully.');
     }
-
 }

@@ -26,7 +26,7 @@ class AdminProductController extends Controller
     {
         Product::validate($request);
 
-        $newProduct = new Product();
+        $newProduct = new Product;
         $newProduct->setName($request->input('name'));
         $newProduct->setDescription($request->input('description'));
         $newProduct->setPrice($request->input('price'));
@@ -61,21 +61,20 @@ class AdminProductController extends Controller
         $viewData['title'] = 'Admin Page - Edit Product - Zuca Store';
         $viewData['product'] = Product::findOrFail($id);
         $viewData['tags'] = Tag::all();
+
         return view('admin.product.edit')->with('viewData', $viewData);
     }
 
     public function update(Request $request, $id): RedirectResponse
     {
         Product::validate($request);
-
         $product = Product::findOrFail($id);
-
         $product->setName($request->input('name'));
         $product->setDescription($request->input('description'));
         $product->setPrice($request->input('price'));
         $product->setStock($request->input('stock'));
         $product->tag()->associate($request->input('tag_id'));
-        
+
         if ($request->hasFile('image')) {
             $imageName = $product->getId().'.'.$request->file('image')->extension();
             Storage::disk('public')->put(

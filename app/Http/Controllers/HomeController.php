@@ -11,6 +11,7 @@ class HomeController extends Controller
         $viewData = [];
         $viewData['title'] = 'Home Page - Zuca Store';
         $viewData['subtitle'] = 'Welcome to the Zuca Store';
+
         return view('home.index')->with('viewData', $viewData);
 
     }

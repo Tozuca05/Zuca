@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('orders')) {
+        if (! Schema::hasTable('orders')) {
             Schema::create('orders', function (Blueprint $table) {
                 $table->id();
                 $table->integer('total');
@@ -22,7 +22,7 @@ return new class extends Migration
             });
         } else {
             Schema::table('orders', function (Blueprint $table) {
-                if (!Schema::hasColumn('orders', 'status')) {
+                if (! Schema::hasColumn('orders', 'status')) {
                     $table->string('status')->default('Pending');
                 }
             });

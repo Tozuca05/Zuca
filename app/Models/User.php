@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Order;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -20,23 +19,22 @@ class User extends Authenticatable
      * $this->attributes['created_at'] - timestamp - contains the creation date of the user
      * $this->attributes['updated_at'] - timestamp - contains the last update date of the user
      */
-    
     protected $fillable = ['name', 'email', 'password'];
 
     public function orders(): HasMany
-    { 
-        return $this->hasMany(Order::class); 
-    } 
-     
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function getOrders(): HasMany
-    { 
-        return $this->orders(); 
-    } 
- 
+    {
+        return $this->orders();
+    }
+
     public function setOrders(HasMany $orders): void
-    { 
-        $this->orders = $orders; 
-    } 
+    {
+        $this->orders = $orders;
+    }
 
     public function getId(): int
     {
@@ -107,5 +105,4 @@ class User extends Authenticatable
     {
         return new string($this->attributes['updated_at']);
     }
-
 }

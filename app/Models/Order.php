@@ -1,15 +1,11 @@
-<?php 
+<?php
 
 namespace App\Models;
 
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Item;
-use App\Models\Playlist;
 
 class Order extends Model
 {
@@ -95,8 +91,6 @@ class Order extends Model
         return $this->attributes['updated_at'];
     }
 
-
-
     public function getUser(): User
     {
         return $this->user;
@@ -120,9 +114,9 @@ class Order extends Model
     public static function validate($request): void
     {
         $request->validate([
-            "total" => "required|numeric|gt:0",
-            "user_id" => "required|exists:users,id",
-            "status" => "required|in:Pending,Paid,Shipped,Delivered",
+            'total' => 'required|numeric|gt:0',
+            'user_id' => 'required|exists:users,id',
+            'status' => 'required|in:Pending,Paid,Shipped,Delivered',
         ]);
     }
 
@@ -148,6 +142,7 @@ class Order extends Model
                 $playlistToShow = $item->getProduct()->tag->playlist;
             }
         }
+
         return $playlistToShow;
     }
 }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class AdminTagController extends Controller
@@ -14,17 +14,17 @@ class AdminTagController extends Controller
     public function index(Request $request): View
     {
         $query = Tag::query();
-        
+
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%'.$request->search.'%');
         }
-        
+
         $viewData = [];
         $viewData['title'] = 'Admin - Tags - Zuca Store';
         $viewData['subtitle'] = 'List of tags';
         $viewData['tags'] = $query->get();
         $viewData['search'] = $request->search;
-        
+
         return view('admin.tag.index')->with('viewData', $viewData);
     }
 
@@ -34,7 +34,7 @@ class AdminTagController extends Controller
             'name' => 'required|unique:tags|max:255',
         ]);
 
-        $newTag = new Tag();
+        $newTag = new Tag;
         $newTag->setName($request->input('name'));
         $newTag->save();
 
@@ -46,6 +46,7 @@ class AdminTagController extends Controller
         $viewData = [];
         $viewData['title'] = 'Admin - Edit Tag - Zuca Store';
         $viewData['tag'] = Tag::findOrFail($id);
+
         return view('admin.tag.edit')->with('viewData', $viewData);
     }
 
@@ -65,6 +66,7 @@ class AdminTagController extends Controller
     public function delete($id): RedirectResponse
     {
         Tag::destroy($id);
+
         return back()->with('success', 'Tag deleted successfully');
     }
 
@@ -79,6 +81,7 @@ class AdminTagController extends Controller
         $viewData['title'] = $tag->getName().' - Zuca Store';
         $viewData['subtitle'] = $tag->getName().' - Tag information';
         $viewData['tag'] = $tag;
+
         return view('admin.tag.show')->with('viewData', $viewData);
     }
 
@@ -87,9 +90,10 @@ class AdminTagController extends Controller
         $query = $request->input('query');
         $tags = Tag::where('name', 'LIKE', "%{$query}%")->get();
         $viewData = [];
-        $viewData["title"] = "Admin - Search Results";
-        $viewData["subtitle"] = "Tags matching: " . $query;
-        $viewData["tags"] = $tags;
-        return view('admin.tag.index')->with("viewData", $viewData);
+        $viewData['title'] = 'Admin - Search Results';
+        $viewData['subtitle'] = 'Tags matching: '.$query;
+        $viewData['tags'] = $tags;
+
+        return view('admin.tag.index')->with('viewData', $viewData);
     }
 }
