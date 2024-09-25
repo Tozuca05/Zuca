@@ -99,7 +99,7 @@ class Item extends Model
 
     public function getOrder(): Order
     { 
-        return $this->order; 
+        return $this->order(); 
     } 
 
     public function setOrder(Order $order): void

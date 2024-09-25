@@ -30,7 +30,7 @@ class User extends Authenticatable
      
     public function getOrders(): HasMany
     { 
-        return $this->orders; 
+        return $this->orders(); 
     } 
  
     public function setOrders(HasMany $orders): void

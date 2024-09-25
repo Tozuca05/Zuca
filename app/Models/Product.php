@@ -35,7 +35,7 @@ class Product extends Model
      
     public function getItems(): HasMany
     { 
-        return $this->items; 
+        return $this->items(); 
     } 
  
     public function setItems(HasMany $items): void

@@ -14,7 +14,7 @@
           <th scope="col">Name</th> 
           <th scope="col">Price</th> 
           <th scope="col">Quantity</th> 
-          <th scope="col">Remove</th>
+          <th scope="col">Actions</th>
         </tr> 
       </thead> 
 
@@ -24,7 +24,17 @@
           <td>{{ $product->getId() }}</td> 
           <td>{{ $product->getName() }}</td> 
           <td>${{ $product->getPrice() }}</td> 
-          <td>{{ session('products')[$product->getId()] }}</td>
+          <td>
+          <form action="{{ route('cart.subtract', ['id' => $product->getId()]) }}" method="POST" style="display:inline;">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-secondary">-</button>
+          </form>
+          {{ session('products')[$product->getId()] }}
+          <form action="{{ route('cart.add', ['id' => $product->getId()]) }}" method="POST" style="display:inline;">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-secondary">+</button>
+          </form>
+          </td>
           <td>
             <a href="{{ route('cart.remove', ['id' => $product->getId()]) }}" class="btn btn-danger">
               Remove

@@ -16,6 +16,7 @@ class Tag extends Model
      * $this->attributes['name'] - string - contains the tag name
      * $this->attributes['created_at'] - timestamp - contains the tag creation date
      * $this->attributes['updated_at'] - timestamp - contains the tag update date
+     * $this->orders - Products[] - contains the associated orders
      */
 
     public function products(): HasMany

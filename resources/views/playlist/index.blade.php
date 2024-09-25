@@ -6,15 +6,11 @@
     @foreach ($viewData["playlists"] as $playlist)
         <div class="col-md-4 col-lg-3 mb-2">
             <div class="card playlist-card">
-                <img src="{{ asset('/storage/'.$playlist->getImageUrl()) }}" class="card-img-top">
+                <a href="{{ $playlist->getLink() }}" target="_blank">
+                    <img src="{{ asset('/storage/'.$playlist->getImageUrl()) }}" class="card-img-top" alt="{{ $playlist->getName() }}">
+                </a>
                 <div class="card-body text-center">
-                    <a href="{{ route('playlist.show', ['id'=> $playlist->getId()]) }}"
-                       class="btn bg-primary text-white">{{ $playlist->getName() }}</a>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="{{ $playlist->getLink() }}" target="_blank" class="btn btn-secondary btn-sm">
-                        Ver en Spotify
-                    </a>
+                    <h5 class="card-title">{{ $playlist->getName() }}</h5>
                 </div>
             </div>
         </div>
