@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title',$viewData["title"]); ?>
 <?php $__env->startSection('subtitle',$viewData["subtitle"]); ?>
 <?php $__env->startSection('content'); ?>

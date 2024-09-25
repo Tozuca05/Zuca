@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Order; 
 
+
 class User extends Authenticatable
 {
     /**
@@ -22,17 +23,17 @@ class User extends Authenticatable
     
     protected $fillable = ['name', 'email', 'password'];
 
-    public function orders() 
+    public function orders(): HasMany
     { 
         return $this->hasMany(Order::class); 
     } 
      
-    public function getOrders() 
+    public function getOrders()
     { 
         return $this->orders; 
     } 
  
-    public function setOrders($orders) 
+    public function setOrders($orders): void
     { 
         $this->orders = $orders; 
     } 
@@ -102,7 +103,7 @@ class User extends Authenticatable
         return new \DateTime($this->attributes['created_at']);
     }
 
-    public function setCreatedAt($createdAt): voidit 
+    public function setCreatedAt($createdAt): void
     {
         $this->attributes['created_at'] = $createdAt;
     }
