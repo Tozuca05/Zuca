@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Order; 
 
 class User extends Authenticatable
 {
@@ -19,22 +19,23 @@ class User extends Authenticatable
      * $this->attributes['created_at'] - timestamp - contains the creation date of the user
      * $this->attributes['updated_at'] - timestamp - contains the last update date of the user
      */
+    
     protected $fillable = ['name', 'email', 'password'];
 
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class);
-    }
-
-    public function getOrders(): HasMany
-    {
-        return $this->orders();
-    }
-
-    public function setOrders(HasMany $orders): void
-    {
-        $this->orders = $orders;
-    }
+    public function orders() 
+    { 
+        return $this->hasMany(Order::class); 
+    } 
+     
+    public function getOrders() 
+    { 
+        return $this->orders; 
+    } 
+ 
+    public function setOrders($orders) 
+    { 
+        $this->orders = $orders; 
+    } 
 
     public function getId(): int
     {
@@ -96,13 +97,24 @@ class User extends Authenticatable
         $this->attributes['balance'] = $balance;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): \DateTime
     {
-        return new string($this->attributes['created_at']);
+        return new \DateTime($this->attributes['created_at']);
     }
 
-    public function getUpdatedAt(): string
+    public function setCreatedAt($createdAt): voidit 
     {
-        return new string($this->attributes['updated_at']);
+        $this->attributes['created_at'] = $createdAt;
     }
+
+    public function getUpdatedAt(): \DateTime
+    {
+        return new \DateTime($this->attributes['updated_at']);
+    }
+
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->attributes['updated_at'] = $updatedAt;
+    }
+
 }
