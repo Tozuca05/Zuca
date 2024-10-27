@@ -56,6 +56,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3 row">
+                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Tag:</label>
+                            <div class="col-lg-10 col-md-6 col-sm-12">
+                                <select name="tag_id" class="form-control" required>
+                                    <option value="">Select a tag</option>
+                                    @foreach($viewData["tags"] as $tag)
+                                    <option value="{{ $tag->getId() }}" {{ $viewData['product']->tag && $viewData['product']->tag->getId() == $tag->getId() ? 'selected' : '' }}>
+                                        {{ $tag->getName() }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Description</label>
                     <textarea class="form-control" name="description" rows="3" required>{{ $viewData['product']->getDescription() }}</textarea>

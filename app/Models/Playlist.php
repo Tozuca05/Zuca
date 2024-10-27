@@ -17,6 +17,7 @@ class Playlist extends Model
      * $this->attributes['tag_id'] - int - contains the id of the associated tag
      * $this->attributes['created_at'] - timestamp - contains the playlist creation date
      * $this->attributes['updated_at'] - timestamp - contains the playlist update date
+     * * $this->product - Products[] - contains the associated orders
      */
     public function tag(): BelongsTo
     {
