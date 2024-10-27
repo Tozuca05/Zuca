@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', $viewData["title"])
-@section('subtitle',$viewData["subtitle"])
+@section('subtitle', $viewData["subtitle"])
 @section('content')
 <div class="row">
     @if(count($viewData['orders']) > 0)
@@ -34,11 +34,13 @@
                         @else
                             <p class="text-success mb-2">Order is paid</p>
                         @endif
+                        
                         @php
                             $playlistToShow = $order->getAssociatedPlaylist();
                         @endphp
-                        @if($playlistToShow)
-                            <a href="{{ $playlistToShow->getLink() }}" class="btn btn-primary" target="_blank">
+
+                        @if($playlistToShow) <!-- Cambia aquí a $playlistToShow -->
+                            <a href="{{ route('playlists.show', ['id' => $playlistToShow->getId()]) }}" class="btn btn-primary" target="_blank">
                                 Check your playlist
                             </a>
                         @endif

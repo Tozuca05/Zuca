@@ -1,9 +1,11 @@
 @extends('layouts.admin')
+
 @section('title', $viewData["title"])
+
 @section('content')
 <div class="card mb-4">
     <div class="card-header">
-        Edit Playlist
+        {{ isset($viewData['playlist']) ? 'Edit Playlist' : 'Create Playlist' }}
     </div>
     <div class="card-body">
         @if($errors->any())
@@ -14,15 +16,18 @@
         </ul>
         @endif
 
-        <form method="POST" action="{{ route('admin.playlist.update', ['id'=> $viewData['playlist']->getId()]) }}">
+        <form method="POST" action="{{ isset($viewData['playlist']) ? route('admin.playlist.update', ['id'=> $viewData['playlist']->getId()]) : route('admin.playlist.store') }}">
             @csrf
-            @method('PUT')
+            @if(isset($viewData['playlist']))
+                @method('PUT')
+            @endif
+            
             <div class="row">
                 <div class="col">
                     <div class="mb-3 row">
                         <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Name:</label>
                         <div class="col-lg-10 col-md-6 col-sm-12">
-                            <input name="name" value="{{ $viewData['playlist']->getName() }}" type="text" class="form-control">
+                            <input name="name" value="{{ isset($viewData['playlist']) ? $viewData['playlist']->getName() : '' }}" type="text" class="form-control" required>
                         </div>
                     </div>
                 </div>
@@ -32,7 +37,7 @@
                     <div class="mb-3 row">
                         <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Link:</label>
                         <div class="col-lg-10 col-md-6 col-sm-12">
-                            <input name="link" value="{{ $viewData['playlist']->getLink() }}" type="url" class="form-control">
+                            <input name="link" value="{{ isset($viewData['playlist']) ? $viewData['playlist']->getLink() : '' }}" type="text" class="form-control" required> <!-- Cambiado a type="text" -->
                         </div>
                     </div>
                 </div>
@@ -42,7 +47,7 @@
                     <div class="mb-3 row">
                         <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Image URL:</label>
                         <div class="col-lg-10 col-md-6 col-sm-12">
-                            <input name="image_url" value="{{ $viewData['playlist']->getImageUrl() }}" type="url" class="form-control">
+                            <input name="image_url" value="{{ isset($viewData['playlist']) ? $viewData['playlist']->getImageUrl() : '' }}" type="text" class="form-control"> <!-- Cambiado a type="text" -->
                         </div>
                     </div>
                 </div>
@@ -52,9 +57,9 @@
                     <div class="mb-3 row">
                         <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Tag:</label>
                         <div class="col-lg-10 col-md-6 col-sm-12">
-                            <select name="tag_id" class="form-select">
+                            <select name="tag_id" class="form-select" required>
                                 @foreach ($viewData["tags"] as $tag)
-                                <option value="{{ $tag->getId() }}" {{ $viewData['playlist']->getTagId() == $tag->getId() ? 'selected' : '' }}>
+                                <option value="{{ $tag->getId() }}" {{ isset($viewData['playlist']) && $viewData['playlist']->getTagId() == $tag->getId() ? 'selected' : '' }}>
                                     {{ $tag->getName() }}
                                 </option>
                                 @endforeach
@@ -63,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Edit</button>
+            <button type="submit" class="btn btn-primary">{{ isset($viewData['playlist']) ? 'Update' : 'Create' }}</button>
         </form>
     </div>
 </div>

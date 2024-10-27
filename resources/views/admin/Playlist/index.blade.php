@@ -26,7 +26,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Link:</label>
-                        <input name="link" value="{{ old('link') }}" type="url" class="form-control" required>
+                        <input name="link" value="{{ old('link') }}" type="text" class="form-control" required> <!-- Cambiado a type="text" -->
                     </div>
                 </div>
             </div>

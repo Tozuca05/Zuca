@@ -102,7 +102,7 @@ class User extends Authenticatable
         return new \DateTime($this->attributes['created_at']);
     }
 
-    public function setCreatedAt($createdAt): voidit 
+    public function setCreatedAt($createdAt): void
     {
         $this->attributes['created_at'] = $createdAt;
     }

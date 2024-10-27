@@ -16,12 +16,21 @@ Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("
 Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("cart.add");
 Route::get('/cart/remove/{id}', 'App\Http\Controllers\CartController@remove')->name('cart.remove');
 Route::post('/cart/subtract/{id}', 'App\Http\Controllers\CartController@subtract')->name('cart.subtract');
+Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
+Route::get('/playlists/{id}', 'App\Http\Controllers\PlaylistController@show')->name('playlists.show');
+
+
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/orders/create', 'App\Http\Controllers\OrderController@create')->name('order.create');
     Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
     Route::post('/orders/pay/{id}', 'App\Http\Controllers\OrderController@pay')->name("order.pay");
+    Route::get('playlist', 'App\Http\Controllers\Admin\AdminPlaylistController@index')->name('playlist.index');
 });
+
 
 Route::middleware('auth', 'App\Http\Middleware\AdminMiddleware')->group(function () {
     Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name('admin.home.index');
