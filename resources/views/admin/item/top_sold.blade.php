@@ -1,21 +1,20 @@
 @extends('layouts.admin')
-
 @section('title', $viewData['title'])
 
 @section('content')
 <div class="card mb-4">
     <div class="card-header">
-        Productos Más Vendidos
+        Top Selling Products
     </div>
     <div class="card-body">
         @if($viewData['topProducts']->isEmpty())
-            <p>No hay datos de ventas disponibles.</p>
+            <p>No sales data available.</p>
         @else
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>Producto</th>
-                        <th>Cantidad Vendida</th>
+                        <th>Product</th>
+                        <th>Quantity Sold</th>
                     </tr>
                 </thead>
                 <tbody>

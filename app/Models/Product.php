@@ -19,6 +19,7 @@ class Product extends Model
      * $this->attributes['updated_at'] - string - timestamp - contains the product update date
      * $this->attributes['stock'] - int - contains the product stock
      * $this->attributes['tag_id'] - int - contains the id of the associated tag
+     * $this->items - items[] - contains the associated orders
      */
     public function items(): HasMany
     {
