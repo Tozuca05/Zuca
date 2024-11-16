@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\PaymentProcessorInterface;
+use App\Interfaces\OrderTotalCalculatorInterface;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Product;
@@ -13,10 +15,20 @@ use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    public function index(Request $request): View
+    protected $paymentProcessor;
+    protected $orderTotalCalculator;
+
+    public function __construct(
+        PaymentProcessorInterface $paymentProcessor,
+        OrderTotalCalculatorInterface $orderTotalCalculator
+    ) {
+        $this->paymentProcessor = $paymentProcessor;
+        $this->orderTotalCalculator = $orderTotalCalculator;
+    }
+
+    public function index(): View
     {
-        $orders = Order::where('user_id', Auth::id())
-            ->get();
+        $orders = Order::where('user_id', Auth::id())->get();
 
         $viewData = [
             'title' => 'Orders - Zuca Store',
@@ -88,23 +100,39 @@ class OrderController extends Controller
         if ($order->getUserId() !== $user->getId()) {
             return redirect()->route('order.index')->with('error', 'Unauthorized action.');
         }
-        if ($user->getBalance() < $order->getTotal()) {
-            return redirect()->route('order.index')->with('error', 'Insufficient balance.');
+
+        $total = $this->orderTotalCalculator->calculateTotal($order);
+
+        try {
+            $response = $this->paymentProcessor->processPayment($order, $user);
+
+            if ($response instanceof RedirectResponse) {
+                return $response;
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('order.index')->with('error', 'Payment processing failed: ' . $e->getMessage());
         }
 
-        $user->setBalance($user->getBalance() - $order->getTotal());
-        $user->save();
+        return redirect()->route('order.index')->with('success', 'Order paid successfully.');
+    }
 
-        $items = Item::where('order_id', $order->getId())->get();
-        foreach ($items as $item) {
-            $product = Product::findOrFail($item->getProductId());
-            $product->setStock($product->getStock() - $item->getQuantity());
-            $product->save();
-        }
-
+    public function paymentSuccess(): RedirectResponse
+    {
+        $orderId = request('token');
+        $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
         $order->setStatus('Paid');
         $order->save();
 
-        return redirect()->route('order.index')->with('success', 'Order paid successfully.');
+        return redirect()->route('order.index')->with('success', 'Payment successful. Your order has been processed.');
+    }
+
+    public function paymentCancel(): RedirectResponse
+    {
+        $orderId = request('token');
+        $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
+        $order->setStatus('Canceled');
+        $order->save();
+
+        return redirect()->route('order.index')->with('error', 'Payment was canceled.');
     }
 }

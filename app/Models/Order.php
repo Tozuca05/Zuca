@@ -4,26 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
-    /**
-     * ORDER ATTRIBUTES
-     * $this->attributes['id'] - int - contains the order primary key (id)
-     * $this->attributes['total'] - float - contains the order total amount
-     * $this->attributes['user_id'] - int - contains the referenced user id
-     * $this->attributes['created_at'] - timestamp - contains the order creation date
-     * $this->attributes['updated_at'] - timestamp - contains the order update date
-     * $this->attributes['status'] - string - contains the order status
-     * $this->user - User - contains the associated User
-     * $this->items - Item[] - contains the associated items
-     */
     protected $fillable = [
         'total',
         'user_id',
         'status',
+        'paypal_order_id',
     ];
 
     public function user(): BelongsTo
@@ -81,6 +71,16 @@ class Order extends Model
         $this->attributes['status'] = $status;
     }
 
+    public function getPaypalOrderId(): ?string
+    {
+        return $this->attributes['paypal_order_id'];
+    }
+
+    public function setPaypalOrderId(string $paypalOrderId): void
+    {
+        $this->attributes['paypal_order_id'] = $paypalOrderId;
+    }
+
     public function getCreatedAt(): ?string
     {
         return $this->attributes['created_at'];
@@ -120,13 +120,6 @@ class Order extends Model
         ]);
     }
 
-    public function calculateTotal(): int
-    {
-        return $this->items->sum(function ($item) {
-            return $item->getPrice() * $item->getQuantity();
-        });
-    }
-
     public function isPaid(): bool
     {
         return $this->getStatus() === 'Paid';
@@ -142,7 +135,6 @@ class Order extends Model
                 $playlistToShow = $item->getProduct()->tag->playlist;
             }
         }
-
         return $playlistToShow;
     }
 }

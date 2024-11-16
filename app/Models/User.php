@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Order; 
+
+
 
 
 class User extends Authenticatable
