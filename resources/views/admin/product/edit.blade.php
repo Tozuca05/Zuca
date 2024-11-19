@@ -48,13 +48,13 @@
                     </div>
                 </div>
                 <div class="col">
-                        <div class="mb-3 row">
-                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Stock:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                <input name="stock" value="{{ old('stock') }}" type="number" class="form-control" required>
-                            </div>
+                    <div class="mb-3 row">
+                        <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Stock:</label>
+                        <div class="col-lg-10 col-md-6 col-sm-12">
+                            <input name="stock" value="{{ $viewData['product']->getStock() }}" type="number" class="form-control" required>
                         </div>
                     </div>
+                </div>
                 </div>
                 <div class="row">
                     <div class="col">
