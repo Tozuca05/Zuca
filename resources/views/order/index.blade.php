@@ -28,10 +28,19 @@
                         </div>
                         <div class="card-footer text-end">
                             @if($order->getStatus() == "Pending")
-                                <form method="POST" action="{{ route('order.pay', ['id' => $order->getId()]) }}" class="d-inline-block">
+                            <form method="POST" action="{{ route('order.pay', ['id' => $order->getId()]) }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-success">Pay</button>
+                                    <input type="hidden" name="order_id" value="{{ $order->getId() }}">
+                                    <div class="form-group">
+                                        <label for="payment_method">Select Payment Method:</label>
+                                        <select id="payment_method" name="payment_method" class="form-control">
+                                            <option value="paypal">PayPal</option>
+                                            <option value="balance">Balance</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-success mt-3">Pay</button>
                                 </form>
+
                             @else
                                 <p class="text-success mb-0"><strong>Status:</strong> Paid</p>
                             @endif

@@ -2,16 +2,16 @@
 
 namespace App\Interfaces;
 
-use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 interface PaymentProcessorInterface
 {
     /**
      * Procesa un pago para una orden.
      *
-     * @param Order $order La orden que se pagará.
-     * @param mixed $user El usuario que realiza el pago.
-     * @return mixed Retorna true si el pago es exitoso o redirige al sistema de pagos.
+     * @param Request $request La solicitud HTTP con los datos necesarios para el pago.
+     * @return RedirectResponse Redirección al sistema de pago o una respuesta de éxito.
      */
-    public function processPayment(Order $order, $user);
+    public function processPayment(Request $request): RedirectResponse;
 }

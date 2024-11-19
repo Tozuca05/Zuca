@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\PaymentProcessorInterface;
-use App\Interfaces\OrderTotalCalculatorInterface;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Product;
@@ -11,21 +9,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Interfaces\PaymentProcessorInterface;
 use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    protected $paymentProcessor;
-    protected $orderTotalCalculator;
-
-    public function __construct(
-        PaymentProcessorInterface $paymentProcessor,
-        OrderTotalCalculatorInterface $orderTotalCalculator
-    ) {
-        $this->paymentProcessor = $paymentProcessor;
-        $this->orderTotalCalculator = $orderTotalCalculator;
-    }
-
     public function index(): View
     {
         $orders = Order::where('user_id', Auth::id())->get();
@@ -60,12 +48,12 @@ class OrderController extends Controller
         return view('order.show')->with('viewData', $viewData);
     }
 
-    public function create(Request $request): RedirectResponse
+    public function create(): RedirectResponse
     {
-        $productsInSession = $request->session()->get('products');
+        $productsInSession = session()->get('products');
         if ($productsInSession) {
             $userId = Auth::id();
-            $order = new Order;
+            $order = new Order();
             $order->setUserId($userId);
             $order->setStatus('Pending');
             $order->setTotal(0);
@@ -75,7 +63,7 @@ class OrderController extends Controller
             $productsInCart = Product::findMany(array_keys($productsInSession));
             foreach ($productsInCart as $product) {
                 $quantity = $productsInSession[$product->getId()];
-                $item = new Item;
+                $item = new Item();
                 $item->setQuantity($quantity);
                 $item->setPrice($product->getPrice());
                 $item->setProductId($product->getId());
@@ -86,53 +74,54 @@ class OrderController extends Controller
             $order->setTotal($total);
             $order->save();
 
-            $request->session()->forget('products');
+            session()->forget('products');
         }
 
         return redirect()->route('order.index');
     }
 
-    public function pay(string $id): RedirectResponse
+    public function pay(Request $request): RedirectResponse
     {
-        $order = Order::findOrFail($id);
-        $user = Auth::user();
-
-        if ($order->getUserId() !== $user->getId()) {
-            return redirect()->route('order.index')->with('error', 'Unauthorized action.');
-        }
-
-        $total = $this->orderTotalCalculator->calculateTotal($order);
-
+        $paymentMethod = $request->input('payment_method');
+        $processor = $paymentMethod === 'balance'
+            ? app('balance')
+            : app(PaymentProcessorInterface::class);
+    
         try {
-            $response = $this->paymentProcessor->processPayment($order, $user);
-
-            if ($response instanceof RedirectResponse) {
-                return $response;
-            }
+            return $processor->processPayment($request);
         } catch (\Exception $e) {
-            return redirect()->route('order.index')->with('error', 'Payment processing failed: ' . $e->getMessage());
+            return redirect()->route('order.index')->with('error', 'Payment failed: ' . $e->getMessage());
         }
-
-        return redirect()->route('order.index')->with('success', 'Order paid successfully.');
     }
+    
 
-    public function paymentSuccess(): RedirectResponse
-    {
-        $orderId = request('token');
-        $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
+public function paymentSuccess(): RedirectResponse
+{
+    $orderId = request('token');
+    $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
+
+    if ($order->getStatus() !== 'Paid') {
         $order->setStatus('Paid');
         $order->save();
-
-        return redirect()->route('order.index')->with('success', 'Payment successful. Your order has been processed.');
     }
+
+    return redirect()->route('order.index')->with('success', 'Payment successful. Your order has been processed.');
+}
+
 
     public function paymentCancel(): RedirectResponse
     {
-        $orderId = request('token');
-        $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
-        $order->setStatus('Canceled');
-        $order->save();
+    $orderId = request('token');
+    $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
 
-        return redirect()->route('order.index')->with('error', 'Payment was canceled.');
+    if ($order->getStatus() === 'Paid') {
+        return redirect()->route('order.index')->with('error', 'Order is already paid and cannot be canceled.');
     }
+
+    $order->setStatus('Pending');
+    $order->save();
+
+    return redirect()->route('order.index')->with('error', 'Payment was canceled. You can try again.');
+    }
+
 }

@@ -3,59 +3,55 @@
 namespace App\Services;
 
 use App\Interfaces\PaymentProcessorInterface;
-use App\Interfaces\OrderTotalCalculatorInterface;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use App\Models\Order;
-
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 class PayPalPaymentProcessor implements PaymentProcessorInterface
 {
-    protected $paypal;
-    protected $totalCalculator;
-
-    public function __construct(OrderTotalCalculatorInterface $totalCalculator)
+    public function processPayment(Request $request): RedirectResponse
     {
-        $this->paypal = new PayPalClient;
-        $this->paypal->setApiCredentials(config('paypal'));
-        $this->paypal->getAccessToken();
+        $order = Order::findOrFail($request->input('order_id'));
+        $user = $request->user();
 
-        $this->totalCalculator = $totalCalculator;
-    }
+        if ($order->getUserId() !== $user->getId()) {
+            throw new \Exception('Unauthorized action.');
+        }
 
-    public function processPayment(Order $order, $user)
-{
-    $total = $this->totalCalculator->calculateTotal($order);
+        $paypal = new PayPalClient;
+        $paypal->setApiCredentials(config('paypal'));
+        $paypal->getAccessToken();
 
-    $orderData = [
-        'intent' => 'CAPTURE',
-        'application_context' => [
-            'return_url' => route('payment.success', ['token' => $order->getId()]),
-            'cancel_url' => route('payment.cancel', ['token' => $order->getId()]),
-        ],
-        'purchase_units' => [
-            [
-                'amount' => [
-                    'currency_code' => 'USD',
-                    'value' => $total,
-                ],
-                'description' => 'Payment for Order #' . $order->getId(),
+        $orderData = [
+            'intent' => 'CAPTURE',
+            'application_context' => [
+                'return_url' => route('payment.success', ['token' => $order->getId()]),
+                'cancel_url' => route('payment.cancel', ['token' => $order->getId()]),
             ],
-        ],
-    ];
+            'purchase_units' => [
+                [
+                    'amount' => [
+                        'currency_code' => 'USD',
+                        'value' => $order->getTotal(),
+                    ],
+                    'description' => 'Payment for Order #' . $order->getId(),
+                ],
+            ],
+        ];
 
-    $response = $this->paypal->createOrder($orderData);
+        $response = $paypal->createOrder($orderData);
 
-    if (isset($response['id']) && $response['status'] === 'CREATED') {
-        $order->paypal_order_id = $response['id'];
-        $order->save();
+        if (isset($response['id']) && $response['status'] === 'CREATED') {
+            $order->paypal_order_id = $response['id'];
+            $order->save();
 
-        foreach ($response['links'] as $link) {
-            if ($link['rel'] === 'approve') {
-                return redirect()->away($link['href']);
+            foreach ($response['links'] as $link) {
+                if ($link['rel'] === 'approve') {
+                    return redirect()->away($link['href']);
+                }
             }
         }
+
+        throw new \Exception('Error creating PayPal order.');
     }
-
-    throw new \Exception('Error creating PayPal order.');
-}
-
 }
