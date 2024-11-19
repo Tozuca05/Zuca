@@ -33,12 +33,6 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Image:</label>
-                        <input class="form-control" type="file" name="image" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
                         <label class="form-label">Tag:</label>
                         <select name="tag_id" class="form-select" required>
                             <option value="">Select a tag</option>

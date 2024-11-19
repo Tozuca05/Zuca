@@ -39,7 +39,7 @@
                             $playlistToShow = $order->getAssociatedPlaylist();
                         @endphp
 
-                        @if($playlistToShow) <!-- Cambia aquí a $playlistToShow -->
+                        @if($playlistToShow)
                             <a href="{{ route('playlists.show', ['id' => $playlistToShow->getId()]) }}" class="btn btn-primary" target="_blank">
                                 Check your playlist
                             </a>
