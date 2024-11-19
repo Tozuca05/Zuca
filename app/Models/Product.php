@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -19,10 +20,12 @@ class Product extends Model
      * $this->attributes['updated_at'] - string - timestamp - contains the product update date
      * $this->attributes['stock'] - int - contains the product stock
      * $this->attributes['tag_id'] - int - contains the id of the associated tag
-     * $this->items - items[] - contains the associated items
+     * $this->items - Item[] - contains the associated items
      * $this->tag - Tag - contains the associated tag
      */
-    public function items(): HasMany
+    use HasFactory;
+    
+     public function items(): HasMany
     {
         return $this->hasMany(Item::class);
     }

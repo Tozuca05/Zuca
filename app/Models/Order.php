@@ -18,6 +18,7 @@ class Order extends Model
      * $this->attributes['status'] - string - contains the order status
      * $this->user - User - contains the associated User
      * $this->items - Item[] - contains the associated items
+     * $this->playlist - Playlist - contains the associated playlist
      */
     protected $fillable = [
         'total',
