@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -23,6 +23,7 @@ class Order extends Model
         'total',
         'user_id',
         'status',
+        'paypal_order_id',
     ];
 
     public function user(): BelongsTo
@@ -80,6 +81,16 @@ class Order extends Model
         $this->attributes['status'] = $status;
     }
 
+    public function getPaypalOrderId(): ?string
+    {
+        return $this->attributes['paypal_order_id'];
+    }
+
+    public function setPaypalOrderId(string $paypalOrderId): void
+    {
+        $this->attributes['paypal_order_id'] = $paypalOrderId;
+    }
+
     public function getCreatedAt(): ?string
     {
         return $this->attributes['created_at'];
@@ -134,7 +145,13 @@ class Order extends Model
                 $playlistToShow = $item->getProduct()->tag->playlist;
             }
         }
-
         return $playlistToShow;
     }
+    public function calculateTotal(): float
+    {
+    return $this->items->sum(function ($item) {
+        return $item->getPrice() * $item->getQuantity();
+    });
+    }
+
 }

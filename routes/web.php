@@ -5,6 +5,13 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+<<<<<<< HEAD
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
+Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
+Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name('product.show');
+Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
+=======
     Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
     Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
     Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
@@ -13,18 +20,23 @@ Auth::routes();
     Route::get('/partner-products', 'App\Http\Controllers\ProductController@partnerProducts')->name('product.partnerProducts');
 
 
+>>>>>>> 6a2405baae9fcbe7a04cf2603652d4e00a464aed
 
-    Route::get('/cart', 'App\Http\Controllers\CartController@index')->name("cart.index");
-    Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("cart.delete");
-    Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("cart.add");
-    Route::get('/cart/remove/{id}', 'App\Http\Controllers\CartController@remove')->name('cart.remove');
-    Route::post('/cart/subtract/{id}', 'App\Http\Controllers\CartController@subtract')->name('cart.subtract');
-    Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
-    Route::get('/playlists/{id}', 'App\Http\Controllers\PlaylistController@show')->name('playlists.show');
+Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');
+Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name('cart.delete');
+Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name('cart.add');
+Route::get('/cart/remove/{id}', 'App\Http\Controllers\CartController@remove')->name('cart.remove');
+Route::post('/cart/subtract/{id}', 'App\Http\Controllers\CartController@subtract')->name('cart.subtract');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
     Route::get('/orders/create', 'App\Http\Controllers\OrderController@create')->name('order.create');
-    Route::post('/orders/pay/{id}', 'App\Http\Controllers\OrderController@pay')->name("order.pay");
+    Route::post('/orders', 'App\Http\Controllers\OrderController@store')->name('order.store');
+    Route::post('/orders/pay', 'App\Http\Controllers\OrderController@pay')->name('order.pay'); // Ajustado
+    Route::get('/payment/success', 'App\Http\Controllers\OrderController@paymentSuccess')->name('payment.success');
+    Route::get('/payment/cancel', 'App\Http\Controllers\OrderController@paymentCancel')->name('payment.cancel');
+    
+    Route::get('/playlists/{id}', 'App\Http\Controllers\PlaylistController@show')->name('playlists.show');
     Route::get('/playlist', 'App\Http\Controllers\Admin\AdminPlaylistController@index')->name('playlist.index');
 });
 
