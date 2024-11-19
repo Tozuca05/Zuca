@@ -5,13 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-<<<<<<< HEAD
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
-Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name('product.show');
-Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
-=======
     Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
     Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
     Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
@@ -20,7 +13,6 @@ Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->
     Route::get('/partner-products', 'App\Http\Controllers\ProductController@partnerProducts')->name('product.partnerProducts');
 
 
->>>>>>> 6a2405baae9fcbe7a04cf2603652d4e00a464aed
 
 Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');
 Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name('cart.delete');
