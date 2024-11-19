@@ -12,7 +12,6 @@ class Order extends Model
     /**
      * ORDER ATTRIBUTES
      * $this->attributes['id'] - int - contains the order primary key (id)
-     * $this->attributes['total'] - float - contains the order total amount
      * $this->attributes['user_id'] - int - contains the referenced user id
      * $this->attributes['created_at'] - timestamp - contains the order creation date
      * $this->attributes['updated_at'] - timestamp - contains the order update date
@@ -118,13 +117,6 @@ class Order extends Model
             'user_id' => 'required|exists:users,id',
             'status' => 'required|in:Pending,Paid,Shipped,Delivered',
         ]);
-    }
-
-    public function calculateTotal(): int
-    {
-        return $this->items->sum(function ($item) {
-            return $item->getPrice() * $item->getQuantity();
-        });
     }
 
     public function isPaid(): bool
