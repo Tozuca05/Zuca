@@ -15,27 +15,9 @@
                     </h3>
                     <p class="card-text mt-3">{{ $viewData["product"]->getDescription() }}</p>
                     <div class="mb-3">
-                        <p class="card-text">
-                            <small class="text-muted">
-                                Created at: {{ $viewData["product"]->created_at->format('Y-m-d H:i') }}
-                            </small><br>
-                            <small class="text-muted">
-                                Updated at: {{ $viewData["product"]->updated_at->format('Y-m-d H:i') }}
-                            </small>
-                        </p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <form method="POST" action="{{ route('admin.product.delete', ['id'=> $viewData['product']->getId()]) }}">
-                            @csrf
-                            @if (Auth::user()->getRole() === 'admin')
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i> Delete Product
-                            </button>
-                            @endif
-                            <a href="{{ route('product.index') }}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Back to Products
-                            </a>
                         </form>
                         <form id="add-to-cart-{{ $viewData['product']->getId() }}" method="POST" action="{{ route('cart.add', ['id'=> $viewData['product']->getId()]) }}">
                             @csrf
