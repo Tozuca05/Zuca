@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Http;
 
 class ProductController extends Controller
 {
@@ -42,17 +43,28 @@ class ProductController extends Controller
         return view('product.show')->with('viewData', $viewData);
     }
 
-    public function search(Request $request): View
-    {
-        $query = $request->input('query');
-        $products = Product::where('name', 'LIKE', "%{$query}%")
-            ->where('stock', '>', 0)
-            ->get();
-        $viewData = [];
-        $viewData['title'] = 'Search Results';
-        $viewData['subtitle'] = 'Products matching: '.$query;
-        $viewData['products'] = $products;
+    public function partnerProducts(Request $request): View
+{
+    // URL of the external API
+    $apiUrl = 'http://pawtopia.sytes.net/api/products';
 
-        return view('product.index')->with('viewData', $viewData);
+    // Make the API request
+    $response = Http::get($apiUrl);
+
+    // Check if the request was successful
+    if ($response->successful()) {
+        $partnerProducts = $response->json();
+    } else {
+        // Handle the error if the request fails
+        $partnerProducts = [];
+        // You can add error messages or logs here
     }
+
+    $viewData = [];
+    $viewData['title'] = 'Partner Products - Zuca Store';
+    $viewData['subtitle'] = 'List of partner products';
+    $viewData['partnerProducts'] = $partnerProducts;
+
+    return view('product.partnerProducts')->with('viewData', $viewData);
+}   
 }
