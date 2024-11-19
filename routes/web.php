@@ -10,6 +10,9 @@ Auth::routes();
     Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
     Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name('product.show');
     Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
+    Route::get('/partner-products', 'App\Http\Controllers\ProductController@partnerProducts')->name('product.partnerProducts');
+
+
 
     Route::get('/cart', 'App\Http\Controllers\CartController@index')->name("cart.index");
     Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("cart.delete");
