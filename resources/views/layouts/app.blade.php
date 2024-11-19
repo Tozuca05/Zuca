@@ -40,6 +40,9 @@
                         </form>
                     @endguest
                     <a class="nav-link active" href="{{ route('product.index') }}">Products</a>
+                    <a class="nav-link active" href="{{ route('product.partnerProducts') }}">Partner Products</a>
+
+
                 </div>
             </div>
         </div>

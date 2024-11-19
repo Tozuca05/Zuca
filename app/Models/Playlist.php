@@ -13,11 +13,11 @@ class Playlist extends Model
      * $this->attributes['id'] - int - contains the playlist primary key (id)
      * $this->attributes['name'] - string - contains the playlist name
      * $this->attributes['link'] - string - contains the playlist link
-     * $this->attributes['image_url'] - string - contains the playlist image URL
      * $this->attributes['tag_id'] - int - contains the id of the associated tag
      * $this->attributes['created_at'] - timestamp - contains the playlist creation date
      * $this->attributes['updated_at'] - timestamp - contains the playlist update date
-     * * $this->product - Products[] - contains the associated orders
+     * $this->tag - Tag - contains the associated tag
+     * $this->orders - Order[] - contains the associated Order
      */
     public function tag(): BelongsTo
     {
@@ -54,16 +54,6 @@ class Playlist extends Model
         $this->attributes['link'] = $link;
     }
 
-    public function getImageUrl(): string
-    {
-        return $this->attributes['image_url'];
-    }
-
-    public function setImageUrl(string $imageUrl): void
-    {
-        $this->attributes['image_url'] = $imageUrl;
-    }
-
     public function getTagId(): int
     {
         return $this->attributes['tag_id'];
@@ -79,7 +69,6 @@ class Playlist extends Model
         $request->validate([
             'name' => 'required|max:255',
             'link' => 'required|url',
-            'image_url' => 'nullable|url',
             'tag_id' => 'required|exists:tags,id',
         ]);
     }

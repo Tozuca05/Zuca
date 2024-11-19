@@ -1,5 +1,5 @@
 <?php $__env->startSection('title', $viewData["title"]); ?>
-<?php $__env->startSection('subtitle',$viewData["subtitle"]); ?>
+<?php $__env->startSection('subtitle', $viewData["subtitle"]); ?>
 <?php $__env->startSection('content'); ?>
 <div class="row">
     <?php if(count($viewData['orders']) > 0): ?>
@@ -34,11 +34,13 @@
                         <?php else: ?>
                             <p class="text-success mb-2">Order is paid</p>
                         <?php endif; ?>
+                        
                         <?php
                             $playlistToShow = $order->getAssociatedPlaylist();
                         ?>
-                        <?php if($playlistToShow): ?>
-                            <a href="<?php echo e($playlistToShow->getLink()); ?>" class="btn btn-primary" target="_blank">
+
+                        <?php if($playlistToShow): ?> <!-- Cambia aquí a $playlistToShow -->
+                            <a href="<?php echo e(route('playlists.show', ['id' => $playlistToShow->getId()])); ?>" class="btn btn-primary" target="_blank">
                                 Check your playlist
                             </a>
                         <?php endif; ?>

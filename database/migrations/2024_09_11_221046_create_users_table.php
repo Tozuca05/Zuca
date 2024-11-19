@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role')->default('user');
-            $table->float('balance')->default(5000);
+            $table->integer('balance')->default(5000);
             $table->timestamps();
         });
     }
