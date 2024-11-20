@@ -14,7 +14,7 @@
         </ul>
         @endif
 
-        <form method="POST" action="{{ route('admin.playlist.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.playlist.store') }}">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -31,12 +31,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Image:</label>
-                        <input class="form-control" type="file" name="image" required>
-                    </div>
-                </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Tag:</label>

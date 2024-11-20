@@ -9,16 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
-    /**
-     * ORDER ATTRIBUTES
-     * $this->attributes['id'] - int - contains the order primary key (id)
-     * $this->attributes['user_id'] - int - contains the referenced user id
-     * $this->attributes['created_at'] - timestamp - contains the order creation date
-     * $this->attributes['updated_at'] - timestamp - contains the order update date
-     * $this->attributes['status'] - string - contains the order status
-     * $this->user - User - contains the associated User
-     * $this->items - Item[] - contains the associated items
-     */
     protected $fillable = [
         'total',
         'user_id',
@@ -147,11 +137,11 @@ class Order extends Model
         }
         return $playlistToShow;
     }
+
     public function calculateTotal(): float
     {
-    return $this->items->sum(function ($item) {
-        return $item->getPrice() * $item->getQuantity();
-    });
+        return $this->items->sum(function ($item) {
+            return $item->getPrice() * $item->getQuantity();
+        });
     }
-
 }

@@ -42,16 +42,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mb-3 row">
-                        <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Image URL:</label>
-                        <div class="col-lg-10 col-md-6 col-sm-12">
-                            <input name="image_url" value="{{ isset($viewData['playlist']) ? $viewData['playlist']->getImageUrl() : '' }}" type="text" class="form-control"> <!-- Cambiado a type="text" -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="row">
                 <div class="col">
                     <div class="mb-3 row">
@@ -68,6 +59,7 @@
                     </div>
                 </div>
             </div>
+
             <button type="submit" class="btn btn-primary">{{ isset($viewData['playlist']) ? 'Update' : 'Create' }}</button>
         </form>
     </div>

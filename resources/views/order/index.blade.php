@@ -1,6 +1,8 @@
 @extends('layouts.app')
-@section('title', $viewData["title"])
-@section('subtitle', $viewData["subtitle"])
+
+@section('title', $viewData['title'])
+@section('subtitle', $viewData['subtitle'])
+
 @section('content')
 <div class="container mt-4">
     <div class="row">
@@ -15,10 +17,10 @@
                         <div class="card-body">
                             <h5 class="card-title">Order Summary</h5>
                             <ul class="list-group list-group-flush">
-                                @foreach ($order->getItems() as $item)
+                                @foreach ($order->items as $item)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        {{ $item->getProduct()->getName() }} 
-                                        <span>(x{{ $item->getQuantity() }}): ${{ number_format($item->getPrice() * $item->getQuantity(), 2) }}</span>
+                                        {{ $item->product->getName() }} 
+                                        <span>(x{{ $item->getQuantity() }}) - ${{ number_format($item->getPrice() * $item->getQuantity(), 2) }}</span>
                                     </li>
                                 @endforeach
                             </ul>
@@ -28,7 +30,7 @@
                         </div>
                         <div class="card-footer text-end">
                             @if($order->getStatus() == "Pending")
-                            <form method="POST" action="{{ route('order.pay', ['id' => $order->getId()]) }}">
+                                <form method="POST" action="{{ route('order.pay', ['id' => $order->getId()]) }}">
                                     @csrf
                                     <input type="hidden" name="order_id" value="{{ $order->getId() }}">
                                     <div class="form-group">
@@ -40,7 +42,6 @@
                                     </div>
                                     <button type="submit" class="btn btn-success mt-3">Pay</button>
                                 </form>
-
                             @else
                                 <p class="text-success mb-0"><strong>Status:</strong> Paid</p>
                             @endif

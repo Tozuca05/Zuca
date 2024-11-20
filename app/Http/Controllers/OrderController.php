@@ -16,13 +16,12 @@ class OrderController extends Controller
 {
     public function index(): View
     {
-        $orders = Order::where('user_id', Auth::id())->get();
-
-        $viewData = [
-            'title' => 'Orders - Zuca Store',
-            'subtitle' => 'List of orders',
-            'orders' => $orders,
-        ];
+        $viewData = [];
+        $viewData['title'] = 'Orders - Zuca Store';
+        $viewData['subtitle'] = 'List orders';
+        $viewData['orders'] = Order::with('items.product')
+                                    ->where('user_id', Auth::id())
+                                    ->get(); 
 
         return view('order.index')->with('viewData', $viewData);
     }
@@ -30,7 +29,7 @@ class OrderController extends Controller
     public function show(string $id): View|RedirectResponse
     {
         try {
-            $order = Order::findOrFail($id);
+            $order = Order::with('items.product')->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('order.index')->with('error', 'Order not found.');
         }
@@ -54,24 +53,24 @@ class OrderController extends Controller
         if ($productsInSession) {
             $userId = Auth::id();
             $order = new Order();
-            $order->setUserId($userId);
-            $order->setStatus('Pending');
-            $order->setTotal(0);
+            $order->user_id = $userId;
+            $order->status = 'Pending';
+            $order->total = 0;
             $order->save();
 
             $total = 0;
             $productsInCart = Product::findMany(array_keys($productsInSession));
             foreach ($productsInCart as $product) {
-                $quantity = $productsInSession[$product->getId()];
+                $quantity = $productsInSession[$product->id];
                 $item = new Item();
-                $item->setQuantity($quantity);
-                $item->setPrice($product->getPrice());
-                $item->setProductId($product->getId());
-                $item->setOrderId($order->getId());
+                $item->quantity = $quantity;
+                $item->price = $product->price;
+                $item->product_id = $product->id;
+                $item->order_id = $order->id;
                 $item->save();
-                $total += $product->getPrice() * $quantity;
+                $total += $product->price * $quantity;
             }
-            $order->setTotal($total);
+            $order->total = $total;
             $order->save();
 
             session()->forget('products');
@@ -93,35 +92,32 @@ class OrderController extends Controller
             return redirect()->route('order.index')->with('error', 'Payment failed: ' . $e->getMessage());
         }
     }
-    
 
-public function paymentSuccess(): RedirectResponse
-{
-    $orderId = request('token');
-    $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
+    public function paymentSuccess(): RedirectResponse
+    {
+        $orderId = request('token');
+        $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
 
-    if ($order->getStatus() !== 'Paid') {
-        $order->setStatus('Paid');
-        $order->save();
+        if ($order->status !== 'Paid') {
+            $order->status = 'Paid';
+            $order->save();
+        }
+
+        return redirect()->route('order.index')->with('success', 'Payment successful. Your order has been processed.');
     }
-
-    return redirect()->route('order.index')->with('success', 'Payment successful. Your order has been processed.');
-}
-
 
     public function paymentCancel(): RedirectResponse
     {
-    $orderId = request('token');
-    $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
+        $orderId = request('token');
+        $order = Order::where('paypal_order_id', $orderId)->firstOrFail();
 
-    if ($order->getStatus() === 'Paid') {
-        return redirect()->route('order.index')->with('error', 'Order is already paid and cannot be canceled.');
+        if ($order->status === 'Paid') {
+            return redirect()->route('order.index')->with('error', 'Order is already paid and cannot be canceled.');
+        }
+
+        $order->status = 'Pending';
+        $order->save();
+
+        return redirect()->route('order.index')->with('error', 'Payment was canceled. You can try again.');
     }
-
-    $order->setStatus('Pending');
-    $order->save();
-
-    return redirect()->route('order.index')->with('error', 'Payment was canceled. You can try again.');
-    }
-
 }
