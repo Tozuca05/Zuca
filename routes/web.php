@@ -5,20 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-<<<<<<< HEAD
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
 Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name('product.show');
 Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
-=======
->>>>>>> 15fbb0aed25fd3fe5159f9efd39bbf2eb978a247
-    Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
-    Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-    Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
-    Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name('product.show');
-    Route::get('/product/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
-    Route::get('/partner-products', 'App\Http\Controllers\ProductController@partnerProducts')->name('product.partnerProducts');
+Route::get('/partner-products', 'App\Http\Controllers\ProductController@partnerProducts')->name('product.partnerProducts');
 
 
 
