@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
-<<<<<<< HEAD
-=======
     /**
      * ORDER ATTRIBUTES
      * $this->attributes['id'] - int - contains the order primary key (id)
@@ -22,7 +20,6 @@ class Order extends Model
      * $this->items - Item[] - contains the associated items
      * $this->playlist - Playlist - contains the associated playlist
      */
->>>>>>> 15fbb0aed25fd3fe5159f9efd39bbf2eb978a247
     protected $fillable = [
         'total',
         'user_id',

@@ -4,7 +4,7 @@
     <div class="card mb-3 shadow-sm">
         <div class="row g-0">
             <div class="col-md-4">
-            <img src="<?php echo e(asset('storage/'.$viewData['product']->getImage())); ?>" class="img-fluid rounded-start" alt="<?php echo e($viewData['product']->getName()); ?>">
+                <img src="<?php echo e(asset('storage/'.$viewData['product']->getImage())); ?>" class="img-fluid rounded-start" alt="<?php echo e($viewData['product']->getName()); ?>">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -15,30 +15,23 @@
                     </h3>
                     <p class="card-text mt-3"><?php echo e($viewData["product"]->getDescription()); ?></p>
                     <div class="mb-3">
-                        <p class="card-text">
-                            <small class="text-muted">
-                                Created at: <?php echo e($viewData["product"]->created_at->format('Y-m-d H:i')); ?>
-
-                            </small><br>
-                            <small class="text-muted">
-                                Updated at: <?php echo e($viewData["product"]->updated_at->format('Y-m-d H:i')); ?>
-
-                            </small>
-                        </p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <form method="POST" action="<?php echo e(route('admin.product.delete', ['id'=> $viewData['product']->getId()])); ?>">
-                            <?php echo csrf_field(); ?>
-                            <?php if(Auth::user()->getRole() === 'admin'): ?>
-                            <?php echo method_field('DELETE'); ?>
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i> Delete Product
-                            </button>
-                            <?php endif; ?>
-                            <a href="<?php echo e(route('product.index')); ?>" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Back to Products
-                            </a>
-                        </form>
+                        <!-- Verifica si el usuario está autenticado y es administrador antes de mostrar el botón de eliminar -->
+                        <?php if(Auth::check() && Auth::user()->getRole() === 'admin'): ?>
+                            <form method="POST" action="<?php echo e(route('admin.product.delete', ['id'=> $viewData['product']->getId()])); ?>">
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('DELETE'); ?>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i> Delete Product
+                                </button>
+                            </form>
+                        <?php endif; ?>
+                        <!-- Botón de Volver a Productos -->
+                        <a href="<?php echo e(route('product.index')); ?>" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Products
+                        </a>
+                        <!-- Formulario para agregar al carrito -->
                         <form id="add-to-cart-<?php echo e($viewData['product']->getId()); ?>" method="POST" action="<?php echo e(route('cart.add', ['id'=> $viewData['product']->getId()])); ?>">
                             <?php echo csrf_field(); ?>
                             <button type="submit" class="btn btn-success add-to-cart" data-product-id="<?php echo e($viewData['product']->getId()); ?>">
@@ -87,4 +80,5 @@ $(document).ready(function() {
 });
 </script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Zuca\resources\views/product/show.blade.php ENDPATH**/ ?>

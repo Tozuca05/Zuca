@@ -5,10 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> b21c27d1eab7db15a2dce222b5c820b4c2a0460f
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');

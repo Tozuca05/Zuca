@@ -17,7 +17,6 @@
                     <div class="mb-3">
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-<<<<<<< HEAD
                         <!-- Verifica si el usuario está autenticado y es administrador antes de mostrar el botón de eliminar -->
                         @if (Auth::check() && Auth::user()->getRole() === 'admin')
                             <form method="POST" action="{{ route('admin.product.delete', ['id'=> $viewData['product']->getId()]) }}">
@@ -33,10 +32,6 @@
                             <i class="bi bi-arrow-left"></i> Back to Products
                         </a>
                         <!-- Formulario para agregar al carrito -->
-=======
-                        <form method="POST" action="{{ route('admin.product.delete', ['id'=> $viewData['product']->getId()]) }}">
-                        </form>
->>>>>>> 15fbb0aed25fd3fe5159f9efd39bbf2eb978a247
                         <form id="add-to-cart-{{ $viewData['product']->getId() }}" method="POST" action="{{ route('cart.add', ['id'=> $viewData['product']->getId()]) }}">
                             @csrf
                             <button type="submit" class="btn btn-success add-to-cart" data-product-id="{{ $viewData['product']->getId() }}">
