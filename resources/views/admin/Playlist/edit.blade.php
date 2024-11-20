@@ -37,12 +37,19 @@
                     <div class="mb-3 row">
                         <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Link:</label>
                         <div class="col-lg-10 col-md-6 col-sm-12">
+<<<<<<< HEAD
                             <input name="link" value="{{ isset($viewData['playlist']) ? $viewData['playlist']->getLink() : '' }}" type="text" class="form-control" required> <!-- Cambiado a type="text" -->
+=======
+                            <input name="link" value="{{ isset($viewData['playlist']) ? $viewData['playlist']->getLink() : '' }}" type="text" class="form-control" required>
+>>>>>>> 15fbb0aed25fd3fe5159f9efd39bbf2eb978a247
                         </div>
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 15fbb0aed25fd3fe5159f9efd39bbf2eb978a247
             <div class="row">
                 <div class="col">
                     <div class="mb-3 row">

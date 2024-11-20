@@ -6,19 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->integer('price');
             $table->integer('stock');
-            $table->foreignId('tag_id')->constrained('tags');
+            $table->foreignId('tag_id')->constrained('tags')->nullable();
             $table->timestamps();
         });
     }

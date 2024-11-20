@@ -40,6 +40,9 @@
                         </form>
                     <?php endif; ?>
                     <a class="nav-link active" href="<?php echo e(route('product.index')); ?>">Products</a>
+                    <a class="nav-link active" href="<?php echo e(route('product.partnerProducts')); ?>">Partner Products</a>
+
+
                 </div>
             </div>
         </div>
